@@ -1,0 +1,7 @@
+# DEPRECATED for local dev — pyproject.toml + uv.lock are the source of truth.
+# Kept only for non-uv installs (plain pip / Docker). If you change deps, edit
+# pyproject.toml and run `uv lock`, then mirror the change here.
+streamlit
+httpx
+pandas
+plotly

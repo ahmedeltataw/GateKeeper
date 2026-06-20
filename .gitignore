@@ -1,0 +1,34 @@
+# --- Secrets (never commit) ---
+.env
+.env.*
+!.env.example
+.env.key.txt
+*.key
+*.key.txt
+*.pem
+*.secret
+secrets/
+
+# --- Local data & databases ---
+*.db
+server/data/
+*.log
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# --- Generated artifacts (rebuilt at runtime) ---
+# Catalog snapshot rebuilt by src/core/catalog.py
+models.json
+# OpenCode model list (regenerate from /v1/opencode/models)
+opencode_models.json
+
+# --- Tooling output (not part of the product) ---
+graphify-out/
+
+# --- Dashboard local env ---
+dashboard/.venv/
+dashboard/.env

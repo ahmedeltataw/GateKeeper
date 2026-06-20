@@ -1,0 +1,14 @@
+[project]
+name = "llm-gateway-dashboard"
+version = "1.0.0"
+description = "Standalone Streamlit admin dashboard for GateKeeper"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit",
+    "httpx",
+    "pandas",
+    "plotly",
+]
+
+[tool.uv]
+package = false

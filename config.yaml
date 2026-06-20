@@ -1,0 +1,41 @@
+server:
+  host: "127.0.0.1"        # "0.0.0.0" for network (less safe)
+  port: 8000               # 1024-65535
+  workers: 1
+  log_level: "INFO"        # DEBUG|INFO|WARNING|ERROR
+  cors_origins: ["*"]      # restrict for network
+auth:
+  enabled: true
+  api_key: "sk-local"
+database:
+  path: "server/data/gateway.db"
+cache:
+  enabled: true
+  ttl: 300
+  max_size: 1000
+rate_limiter:
+  enabled: true
+  state_file: "server/data/rate_limits.json"
+sticky_sessions:
+  enabled: true
+  ttl: 1800
+  context_handoff: true
+quality_router:
+  enabled: true
+  default_task_type: "default"
+providers:
+  openrouter:    {base_url: "https://openrouter.ai/api/v1"}
+  gemini:        {base_url: "https://generativelanguage.googleapis.com/v1beta"}
+  groq:          {base_url: "https://api.groq.com/openai/v1"}
+  mistral:       {base_url: "https://api.mistral.ai/v1"}
+  github_models: {base_url: "https://models.github.ai/inference"}
+  nvidia:        {base_url: "https://integrate.api.nvidia.com/v1"}
+  cerebras:      {base_url: "https://api.cerebras.ai/v1"}
+  cloudflare:    {base_url: "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run"}
+  zhipu:         {base_url: "https://api.z.ai/api/paas/v4"}
+  huggingface:   {base_url: "https://router.huggingface.co/v1"}
+  aion:          {base_url: "https://api.aionlabs.ai/v1"}
+  cohere:        {base_url: "https://api.cohere.com/v2"}
+dashboard:
+  enabled: true
+  username: "admin"        # password set on first run

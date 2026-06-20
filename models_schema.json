@@ -1,0 +1,48 @@
+{
+  "version": 1,
+
+  "defaults": {
+    "strength": "B",
+    "context_window": 32768,
+    "max_output_tokens": 8192,
+    "use_cases": ["default"]
+  },
+
+  "categories": {
+    "openrouter": { "label": "OpenRouter", "provider_id": "openrouter" },
+    "groq":       { "label": "Groq",        "provider_id": "groq" },
+    "cloudflare": { "label": "Cloudflare",  "provider_id": "cloudflare" },
+    "github":     { "label": "GitHub Models","provider_id": "github_models" },
+    "gemini":     { "label": "Google Gemini","provider_id": "gemini" }
+  },
+
+  "models": {
+    "or-gpt-oss-120b": {
+      "name": "GPT-OSS 120B (OpenRouter)",
+      "category": "openrouter",
+      "provider_model_id": "openai/gpt-oss-120b:free",
+      "strength": "A",
+      "use_cases": ["coding", "search", "reasoning"],
+      "fallback_order": ["groq-gpt-oss-120b", "cb-gpt-oss-120b"]
+    },
+
+    "gh-gpt-4.1": {
+      "name": "GPT-4.1 (GitHub Models)",
+      "category": "github",
+      "provider_model_id": "openai/gpt-4.1",
+      "strength": "S",
+      "tier": "dedicated",
+      "use_cases": ["coding", "data", "creative"],
+      "fallback_order": ["gh-gpt-4o", "gemini-2.5-pro"]
+    },
+
+    "cf-qwq-32b": {
+      "name": "QwQ 32B (Cloudflare)",
+      "category": "cloudflare",
+      "provider_model_id": "@cf/qwen/qwq-32b",
+      "strength": "B",
+      "use_cases": ["reasoning"],
+      "fallback_order": ["nv-deepseek-r1", "groq-gpt-oss-120b"]
+    }
+  }
+}

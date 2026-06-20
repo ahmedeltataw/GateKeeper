@@ -1,0 +1,12 @@
+# Runtime dependencies for GateKeeper (backend).
+# Every package here is imported by src/. Test tools live in requirements-dev.txt;
+# the Streamlit dashboard has its own dashboard/requirements.txt.
+
+fastapi>=0.115.0           # API framework
+uvicorn[standard]>=0.30.0  # ASGI server
+httpx>=0.28.0              # async HTTP client for providers
+pydantic>=2.0.0            # typed models / validation
+aiosqlite>=0.20.0          # async SQLite (keys, tenants, usage)
+cryptography>=42.0.0       # AES-256-GCM key encryption at rest
+python-dotenv>=1.0.0       # .env loading
+pyyaml>=6.0.0              # config.yaml parsing

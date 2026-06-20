@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  gateway:
+    build: .
+    container_name: llm-free-gateway
+    ports: ["8000:8000"]
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./server/data:/app/server/data
+      - ./.env:/app/.env:ro
+    environment:
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD","python","-c","import httpx; httpx.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

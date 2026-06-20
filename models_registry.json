@@ -1,0 +1,1521 @@
+[
+  {
+    "id": "or-gpt-oss-120b",
+    "display_name": "GPT-OSS 120B (OpenRouter)",
+    "provider_id": "openrouter",
+    "provider_model_id": "openai/gpt-oss-120b:free",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "50 RPD until you've ever bought >=10 credits, then 1000 RPD.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "or-qwen3-coder",
+    "display_name": "Qwen3 Coder (OpenRouter)",
+    "provider_id": "openrouter",
+    "provider_model_id": "qwen/qwen3-coder:free",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding"
+    ],
+    "category": "coding",
+    "context_window": 256000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "or-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (OpenRouter)",
+    "provider_id": "openrouter",
+    "provider_model_id": "meta-llama/llama-3.3-70b-instruct:free",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "coding",
+      "creative",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "or-glm-4.5-air",
+    "display_name": "GLM 4.5 Air (OpenRouter)",
+    "provider_id": "openrouter",
+    "provider_model_id": "z-ai/glm-4.5-air:free",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "or-gemma-4-31b",
+    "display_name": "Gemma 4 31B (OpenRouter)",
+    "provider_id": "openrouter",
+    "provider_model_id": "google/gemma-4-31b-it:free",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "creative",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "or-auto",
+    "display_name": "OpenRouter Auto (free)",
+    "provider_id": "openrouter",
+    "provider_model_id": "openrouter/free",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "default",
+      "coding",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 20,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Auto-router that picks any available free model.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gemini-2.5-pro",
+    "display_name": "Gemini 2.5 Pro",
+    "provider_id": "gemini",
+    "provider_model_id": "gemini-2.5-pro",
+    "strength": "S",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning",
+      "creative",
+      "data",
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 1000000,
+    "max_output_tokens": 65000,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 5,
+      "rpd": 100
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Free tier may use prompts for training. Limits cut ~Dec 2025; verify live.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "display_name": "Gemini 2.5 Flash",
+    "provider_id": "gemini",
+    "provider_model_id": "gemini-2.5-flash",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "creative",
+      "data",
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 1000000,
+    "max_output_tokens": 65000,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 10,
+      "rpd": 250
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Best all-round free default. Free tier may train on data.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gemini-2.5-flash-lite",
+    "display_name": "Gemini 2.5 Flash-Lite",
+    "provider_id": "gemini",
+    "provider_model_id": "gemini-2.5-flash-lite",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 1000000,
+    "max_output_tokens": 65000,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 15,
+      "rpd": 1000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gemini-2.0-flash",
+    "display_name": "Gemini 2.0 Flash",
+    "provider_id": "gemini",
+    "provider_model_id": "gemini-2.0-flash",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "coding",
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 1000000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 15,
+      "rpd": 1500
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-gpt-oss-120b",
+    "display_name": "GPT-OSS 120B (Groq)",
+    "provider_id": "groq",
+    "provider_model_id": "openai/gpt-oss-120b",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 32000,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 8000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Best Groq pick. Fast.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-gpt-oss-20b",
+    "display_name": "GPT-OSS 20B (Groq)",
+    "provider_id": "groq",
+    "provider_model_id": "openai/gpt-oss-20b",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "reasoning",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 32000,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 8000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (Groq)",
+    "provider_id": "groq",
+    "provider_model_id": "llama-3.3-70b-versatile",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 32000,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 12000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-llama-3.1-8b",
+    "display_name": "Llama 3.1 8B Instant (Groq)",
+    "provider_id": "groq",
+    "provider_model_id": "llama-3.1-8b-instant",
+    "strength": "C",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 14400,
+      "tpm": 6000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-qwen3-32b",
+    "display_name": "Qwen3 32B (Groq, preview)",
+    "provider_id": "groq",
+    "provider_model_id": "qwen/qwen3-32b",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 16000,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 6000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Preview model; not for production.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "groq-llama-4-scout",
+    "display_name": "Llama 4 Scout (Groq, preview)",
+    "provider_id": "groq",
+    "provider_model_id": "meta-llama/llama-4-scout-17b-16e-instruct",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "vision",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 6000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Preview; vision + long context.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-large",
+    "display_name": "Mistral Large",
+    "provider_id": "mistral",
+    "provider_model_id": "mistral-large-latest",
+    "strength": "S",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Free Experiment tier opts INTO training by default; opt out in console.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-medium",
+    "display_name": "Mistral Medium",
+    "provider_id": "mistral",
+    "provider_model_id": "mistral-medium-latest",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-magistral",
+    "display_name": "Magistral Medium",
+    "provider_id": "mistral",
+    "provider_model_id": "magistral-medium-latest",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "reasoning",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-small",
+    "display_name": "Mistral Small",
+    "provider_id": "mistral",
+    "provider_model_id": "mistral-small-latest",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "creative"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-pixtral",
+    "display_name": "Pixtral Large",
+    "provider_id": "mistral",
+    "provider_model_id": "pixtral-large-latest",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "vision",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "mistral-codestral",
+    "display_name": "Codestral",
+    "provider_id": "mistral",
+    "provider_model_id": "codestral-latest",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding"
+    ],
+    "category": "coding",
+    "context_window": 256000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rps": 1,
+      "tpm": 500000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "UNCERTAIN: Codestral may require billing attached (Premier-tagged).",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gh-gpt-4.1",
+    "display_name": "GPT-4.1 (GitHub Models)",
+    "provider_id": "github_models",
+    "provider_model_id": "openai/gpt-4.1",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 10,
+      "rpd": 50
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Only no-card source of proprietary GPT. High tier: tight limits.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gh-gpt-4o",
+    "display_name": "GPT-4o (GitHub Models)",
+    "provider_id": "github_models",
+    "provider_model_id": "openai/gpt-4o",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "creative",
+      "data",
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 15,
+      "rpd": 150
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gh-gpt-4o-mini",
+    "display_name": "GPT-4o Mini (GitHub Models)",
+    "provider_id": "github_models",
+    "provider_model_id": "openai/gpt-4o-mini",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 15,
+      "rpd": 150
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gh-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (GitHub Models)",
+    "provider_id": "github_models",
+    "provider_model_id": "meta/llama-3.3-70b-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 15,
+      "rpd": 150
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "gh-deepseek-r1",
+    "display_name": "DeepSeek R1 (GitHub Models)",
+    "provider_id": "github_models",
+    "provider_model_id": "deepseek/DeepSeek-R1",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "reasoning",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 1,
+      "rpd": 8
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Reasoning model: very tight limits (~1 RPM / ~8 RPD).",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "nv-llama-3.1-405b",
+    "display_name": "Llama 3.1 405B (NVIDIA)",
+    "provider_id": "nvidia",
+    "provider_model_id": "meta/llama-3.1-405b-instruct",
+    "strength": "S",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 40
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "nv-deepseek-r1",
+    "display_name": "DeepSeek R1 (NVIDIA)",
+    "provider_id": "nvidia",
+    "provider_model_id": "deepseek-ai/deepseek-r1",
+    "strength": "S",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "reasoning",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 40
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "nv-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (NVIDIA)",
+    "provider_id": "nvidia",
+    "provider_model_id": "meta/llama-3.3-70b-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 40
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "nv-qwen2.5-coder-32b",
+    "display_name": "Qwen2.5 Coder 32B (NVIDIA)",
+    "provider_id": "nvidia",
+    "provider_model_id": "qwen/qwen2.5-coder-32b-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding"
+    ],
+    "category": "coding",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 40
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "nv-nemotron-70b",
+    "display_name": "Llama 3.1 Nemotron 70B (NVIDIA)",
+    "provider_id": "nvidia",
+    "provider_model_id": "nvidia/llama-3.1-nemotron-70b-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 40
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cb-gpt-oss-120b",
+    "display_name": "GPT-OSS 120B (Cerebras)",
+    "provider_id": "cerebras",
+    "provider_model_id": "gpt-oss-120b",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 8192,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "tpd": 1000000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Free tier caps context at 8K. ~2000+ tok/s. Menu rotates.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cb-glm-4.7",
+    "display_name": "ZAI GLM-4.7 (Cerebras, preview)",
+    "provider_id": "cerebras",
+    "provider_model_id": "zai-glm-4.7",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 8192,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 30,
+      "tpd": 1000000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Preview; 8K context cap on free tier.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-gpt-oss-120b",
+    "display_name": "GPT-OSS 120B (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/openai/gpt-oss-120b",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 131000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Best quality/Neuron value.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-qwen2.5-coder-32b",
+    "display_name": "Qwen2.5 Coder 32B (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/qwen/qwen2.5-coder-32b-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding"
+    ],
+    "category": "coding",
+    "context_window": 32000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-qwq-32b",
+    "display_name": "QwQ 32B (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/qwen/qwq-32b",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning"
+    ],
+    "category": "reasoning",
+    "context_window": 32000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-llama-4-scout",
+    "display_name": "Llama 4 Scout (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/meta/llama-4-scout-17b-16e-instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 131000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-llama-3.2-11b-vision",
+    "display_name": "Llama 3.2 11B Vision (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/meta/llama-3.2-11b-vision-instruct",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "vision"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "cf-llama-3.1-8b",
+    "display_name": "Llama 3.1 8B Fast (Cloudflare)",
+    "provider_id": "cloudflare",
+    "provider_model_id": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "search",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "neurons": 10000
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Cheapest/fastest; best Neuron value.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "glm-4.7-flash",
+    "display_name": "GLM-4.7-Flash",
+    "provider_id": "zhipu",
+    "provider_model_id": "glm-4.7-flash",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "reasoning",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 200000,
+    "max_output_tokens": 128000,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "concurrent": 1
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "glm-4.5-flash",
+    "display_name": "GLM-4.5-Flash",
+    "provider_id": "zhipu",
+    "provider_model_id": "glm-4.5-flash",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "reasoning",
+      "search"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "concurrent": 1
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "glm-4.6v-flash",
+    "display_name": "GLM-4.6V-Flash",
+    "provider_id": "zhipu",
+    "provider_model_id": "glm-4.6v-flash",
+    "strength": "B",
+    "strength_order": 0,
+    "use_cases": [
+      "vision",
+      "coding"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "concurrent": 1
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "hf-deepseek-r1",
+    "display_name": "DeepSeek R1 (HuggingFace)",
+    "provider_id": "huggingface",
+    "provider_model_id": "deepseek-ai/DeepSeek-R1",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "reasoning",
+      "coding"
+    ],
+    "category": "reasoning",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 10
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Eval only: ~$0.10/month free credit, then PRO needed.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  },
+  {
+    "id": "hf-llama-3.3-70b",
+    "display_name": "Llama 3.3 70B (HuggingFace)",
+    "provider_id": "huggingface",
+    "provider_model_id": "meta-llama/Llama-3.3-70B-Instruct",
+    "strength": "A",
+    "strength_order": 0,
+    "use_cases": [
+      "coding",
+      "search",
+      "data"
+    ],
+    "category": "general",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "modalities": [
+      "text"
+    ],
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "rate_limits": {
+      "rpm": 10
+    },
+    "enabled": true,
+    "status": "active",
+    "fallback_models": [],
+    "notes": "Eval only: ~$0.10/month free credit.",
+    "added_at": "2026-06-17",
+    "last_verified": "2026-06-17",
+    "verification_source": "doc_verified"
+  }
+]

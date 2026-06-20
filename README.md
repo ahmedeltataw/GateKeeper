@@ -1,94 +1,68 @@
-<div align="center">
-
-<a href="https://github.com/ahmedeltataw/GateKeeper">
-  <img src="https://placehold.co/900x200/0a0a0f/F5A623?text=🧩+GateKeeper&font=source-sans-pro" alt="GateKeeper Banner" width="900">
-</a>
-
 # 🧩 GateKeeper
 
-### The Ultimate Local-First LLM Gateway
-
-**Take full control of your AI costs and operations — one endpoint, every provider.**
+> **The Ultimate Local-First LLM Gateway** — Take full control of your AI costs and operations, one endpoint, every provider.
 
 A self-hosted control plane that unifies free & paid LLM providers behind a single **OpenAI-compatible API** — with privacy, cost control, and self-healing routing built in.
 
----
+<div align="center">
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-00CEC0?style=for-the-badge)](LICENSE)
-[![Tests](https://img.shields.io/github/actions/workflow/status/ahmedeltataw/GateKeeper/pytest.yml?style=for-the-badge&label=tests&logo=github-actions&logoColor=white)](https://github.com/ahmedeltataw/GateKeeper/actions)
 [![Local-First](https://img.shields.io/badge/local--first-100%25-6C5CE7?style=for-the-badge&logo=lock&logoColor=white)](#-security--privacy)
 [![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI%20compatible-FF6B35?style=for-the-badge&logo=openai&logoColor=white)](#-usage)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#-docker)
 
-<br>
-
-**[Quick Start](#-installation)** · **[Features](#-features)** · **[Architecture](#-architecture)** · **[Providers](#-supported-providers)** · **[API Reference](#-usage)** · **[Contributing](#-contributing)**
-
 </div>
+
+**[Quick Start](#-installation)** · **[Features](#-features)** · **[Architecture](#-architecture)** · **[Providers](#-supported-providers)** · **[Contributing](#-contributing)**
 
 ---
 
 ## 🎯 Why GateKeeper?
 
-> **The problem:** You scatter API keys across every tool, pay for redundant subscriptions, and have zero visibility into usage — while your prompts and keys leak to third parties.
-
-> **The solution:** Point every app at **one local address**. GateKeeper routes, falls back, rate-limits, tracks quotas, and monitors health — **privately**.
-
 | Without GateKeeper | With GateKeeper |
-|:---:|:---:|
-| 🔑 API keys in every `.env` | 🔐 **One encrypted vault** |
+|:---|:---|
+| 🔑 API keys scattered in every `.env` file | 🔐 **One encrypted AES-256-GCM vault** |
 | 💸 Paying for 5+ subscriptions | 💰 **Free providers first, paid as fallback** |
-| 💥 One dead provider = broken app | 🔄 **4-tier automatic fallback** |
-| 🔍 No idea what's happening | 📊 **Real-time dashboard & analytics** |
+| 💥 One dead provider = broken app | 🔄 **4-tier automatic fallback engine** |
+| 🔍 Zero visibility into usage | 📊 **Real-time dashboard & analytics** |
 | 🌐 Prompts sent to unknown servers | 🏠 **Local-first — nothing leaves your machine** |
 
 ---
 
 ## ✨ Features
 
-<table>
-<tr>
-<td width="50%">
-
 ### 🔐 Security & Privacy
-- **AES-256-GCM** encrypted key vault (SQLite)
-- **SHA-256** hashed client keys
-- Local-first — **zero telemetry**
-- Secrets auto-generated on first run
+- **AES-256-GCM** encrypted key vault (SQLite) — keys never stored in plaintext
+- **SHA-256** hashed client API keys — raw key never written to disk
+- **Secrets auto-generated** on first run — no manual setup
+- **Zero telemetry** — no analytics, no phone-home, no cloud dependency
 
 ### 🔀 Smart Routing
 - **4-tier fallback engine** with context handoff
-- Per-task quality router (coding, search, reasoning, ...)
+- Per-task quality routing (coding, search, reasoning, …)
 - Sticky sessions for conversation continuity
 - Streaming support with pre-first-byte failover
-
-</td>
-<td width="50%">
 
 ### 🩺 Self-Healing
 - Background **health probes** with passive-first strategy
 - **Circuit breaker** with auto-blacklist
-- Smart diagnostics: 413 shrink, 5xx backoff
+- Smart diagnostics: 413 → shrink, 5xx → backoff
 - Auto-recovery when providers come back online
 
 ### 📊 Observability
 - **Streamlit dashboard** with dark mode
 - Per-provider latency, token, and request analytics
 - Live usage vs. quota progress bars
-- Cache hit rate tracking
-
-</td>
-</tr>
-</table>
+- **LRU cache** with hit rate tracking
 
 ---
 
 ## 🏗️ Architecture
 
-```
+```text
                     ┌─────────────────────────────────────────┐
-                    │              Your Applications           │
+                    │         Your Applications                │
                     │   (OpenCode, Hermes, scripts, agents)   │
                     └──────────────────┬──────────────────────┘
                                        │
@@ -121,12 +95,12 @@ A self-hosted control plane that unifies free & paid LLM providers behind a sing
                     │  └────────────────┬──────────────────┘  │
                     └───────────────────┼─────────────────────┘
                                         │
-           ┌────────────┬───────────────┼───────────────┬────────────┐
-           ▼            ▼               ▼               ▼            ▼
-     ┌──────────┐ ┌──────────┐  ┌────────────┐  ┌──────────┐ ┌──────────┐
-     │  Groq    │ │  Gemini  │  │ OpenRouter  │  │ Mistral  │ │  + 8 more│
-     │ 🟢 free  │ │ 🟢 free  │  │ 🟡 free tier│  │ 🟡 free  │ │ providers│
-     └──────────┘ └──────────┘  └────────────┘  └──────────┘ └──────────┘
+          ┌───────────┬─────────────────┼──────────────┬───────────┐
+          ▼           ▼                 ▼              ▼           ▼
+    ┌──────────┐ ┌──────────┐  ┌────────────┐  ┌──────────┐ ┌──────────┐
+    │  Groq    │ │  Gemini  │  │ OpenRouter  │  │ Mistral  │ │  + 8 more│
+    │ 🟢 free  │ │ 🟢 free  │  │ 🟡 free tier│  │ 🟡 free  │ │ providers│
+    └──────────┘ └──────────┘  └────────────┘  └──────────┘ └──────────┘
 ```
 
 ---
@@ -134,7 +108,6 @@ A self-hosted control plane that unifies free & paid LLM providers behind a sing
 ## 🚀 Installation
 
 ### Prerequisites
-
 - **Python 3.12+**
 - At least one free API key:
   [Groq](https://console.groq.com/keys) ·
@@ -149,7 +122,7 @@ cd GateKeeper
 run.bat
 ```
 
-> `run.bat` creates the venv, installs deps, generates your `ENCRYPTION_KEY`, starts the gateway, and opens the dashboard. **That's it.**
+> `run.bat` creates the venv, installs deps, generates your `ENCRYPTION_KEY`, starts the gateway, and opens the dashboard.
 
 ### macOS / Linux
 
@@ -167,14 +140,13 @@ uvicorn src.api.server:app --host 127.0.0.1 --port 8000
 docker compose up -d
 ```
 
-The gateway is now live at **http://127.0.0.1:8000** — interactive docs at [`/docs`](http://127.0.0.1:8000/docs).
+>The gateway is now live at **http://127.0.0.1:8000** — interactive docs at [`/docs`](http://127.0.0.1:8000/docs).
 
 ---
 
 ## 📖 Usage
 
 ### 1. Add Provider Keys
-
 Via the **dashboard → Keys** page (recommended), or in `.env`:
 
 ```env
@@ -189,12 +161,9 @@ OPENROUTER_KEY=sk-or-...
 
 ```bash
 curl http://127.0.0.1:8000/v1/chat/completions \
-  -H "Authorization: Bearer ***" \
+  -H "Authorization: Bearer *** \
   -H "Content-Type: application/json" \
-  -d '{
-    "model": "auto",
-    "messages": [{"role": "user", "content": "Hello!"}]
-  }'
+  -d '{"model": "auto", "messages": [{"role": "user", "content": "Hello!"}]}'
 ```
 
 ### 3. Use With Your Favorite Tools
@@ -218,32 +187,26 @@ streamlit run app.py
 
 ## 🔀 Supported Providers
 
-<table>
-<tr>
-<th>Provider</th>
-<th>Tier</th>
-<th>Free Models</th>
-<th>Highlights</th>
-</tr>
-<tr><td>🟣 <b>Groq</b></td><td>Free</td><td>Llama 3.3 70B, GPT-OSS 120B</td><td>Ultra-fast inference, generous RPM</td></tr>
-<tr><td>🔵 <b>Google Gemini</b></td><td>Free</td><td>Gemini 2.5 Flash, Gemini 2.5 Pro</td><td>Huge context window, vision support</td></tr>
-<tr><td>🟠 <b>OpenRouter</b></td><td>Free tier</td><td>50+ models (Llama, Gemma, Qwen...)</td><td>Aggregator — one key, many models</td></tr>
-<tr><td>🔴 <b>Mistral</b></td><td>Free tier</td><td>Codestral, Mistral Large</td><td>Top coding model, European hosting</td></tr>
-<tr><td>⚫ <b>GitHub Models</b></td><td>Free tier</td><td>GPT-4o, Phi-4</td><td>Free via GitHub account</td></tr>
-<tr><td>🟢 <b>NVIDIA</b></td><td>Free tier</td><td>DeepSeek R1, Llama 3.3 70B</td><td>Enterprise GPU cluster</td></tr>
-<tr><td>🟤 <b>Cerebras</b></td><td>Free tier</td><td>GPT-OSS 120B</td><td>Wafer-scale inference</td></tr>
-<tr><td>🟡 <b>Cloudflare Workers AI</b></td><td>Free tier</td><td>Llama 3.2 11B Vision</td><td>Edge inference, neurons-based billing</td></tr>
-<tr><td>🔵 <b>Zhipu (GLM)</b></td><td>Free tier</td><td>GLM-4 Flash</td><td>Chinese LLM leader</td></tr>
-<tr><td>🟣 <b>Hugging Face</b></td><td>Free tier</td><td>100+ open models</td><td>Open-source model hub</td></tr>
-<tr><td>🟢 <b>Aion Labs</b></td><td>Free tier</td><td>Aion Nemotron</td><td>Specialized inference</td></tr>
-<tr><td>🔴 <b>Cohere</b></td><td>Free tier</td><td>Command R+</td><td>RAG-optimized, multilingual</td></tr>
-</table>
+| Provider | Tier | Free Models | Highlights |
+|----------|------|-------------|------------|
+| 🟣 **Groq** | Free | Llama 3.3 70B, GPT-OSS 120B | Ultra-fast inference, generous RPM |
+| 🔵 **Google Gemini** | Free | Gemini 2.5 Flash, Gemini 2.5 Pro | Huge context window, vision support |
+| 🟠 **OpenRouter** | Free tier | 50+ models | One key, many providers |
+| 🔴 **Mistral** | Free tier | Codestral, Mistral Large | Top coding model, EU hosting |
+| ⚫ **GitHub Models** | Free tier | GPT-4o, Phi-4 | Free via GitHub account |
+| 🟢 **NVIDIA** | Free tier | DeepSeek R1, Llama 3.3 70B | Enterprise GPU cluster |
+| 🟤 **Cerebras** | Free tier | GPT-OSS 120B | Wafer-scale inference |
+| 🟡 **Cloudflare Workers AI** | Free tier | Llama 3.2 11B Vision | Edge inference |
+| 🔵 **Zhipu (GLM)** | Free tier | GLM-4 Flash | Chinese LLM leader |
+| 🟣 **Hugging Face** | Free tier | 100+ open models | Open-source model hub |
+| 🟢 **Aion Labs** | Free tier | Aion Nemotron | Specialized inference |
+| 🔴 **Cohere** | Free tier | Command R+ | RAG-optimized, multilingual |
 
 ---
 
 ## ⚙️ Configuration
 
-All settings live in `config.yaml`. Key options:
+All settings live in `config.yaml`:
 
 | Section | Key | Default | Description |
 |---------|-----|---------|-------------|
@@ -253,7 +216,7 @@ All settings live in `config.yaml`. Key options:
 | `cache` | `enabled` / `ttl` | `true` / `300s` | Response cache |
 | `rate_limiter` | `enabled` | `true` | Token-bucket rate limits |
 | `circuit` | `failures_to_open` | `3` | Breaker threshold |
-| `circuit` | `opens_to_blacklist` | `3` | Auto-blacklist after N opens |
+| `circuit` | `opens_to_blacklist` | `3` | Auto-blacklist |
 | `usage` | `enforce` | `false` | Return 429 on quota exceeded |
 | `diagnostics` | `max_remediation_attempts` | `2` | Auto-repair retries |
 
@@ -272,8 +235,6 @@ GateKeeper is **local-first by design**. Your data stays on your machine.
 | **Secrets** | `.env`, `*.key`, `*.db` git-ignored by default |
 | **Data flow** | Only outbound traffic is to providers **you** configured |
 
-> When you sell or share this gateway, each customer runs their **own** instance. Their keys and traffic never touch yours.
-
 ---
 
 ## 🧪 Development
@@ -291,35 +252,33 @@ pytest --cov=src --cov-report=term-missing
 
 ### Project Structure
 
-```
+```text
 GateKeeper/
 ├── src/
-│   ├── api/              # FastAPI server, routes, middleware
-│   ├── core/             # Router, fallback, circuit breaker, health
-│   └── providers/        # One adapter per upstream provider (12 total)
-├── dashboard/            # Streamlit control panel
-├── scripts/              # Helper scripts
-├── tests/                # pytest suite
-├── docs/                 # Documentation
-├── config.yaml           # Server configuration
-├── models_registry.json  # Model catalog
-├── Dockerfile            # Container build
-├── docker-compose.yml    # One-command deployment
-└── run.bat               # Windows one-click launcher
+│   ├── api/            # FastAPI server, routes, middleware
+│   ├── core/           # Router, fallback, circuit breaker, health
+│   └── providers/      # One adapter per provider (12 total)
+├── dashboard/          # Streamlit control panel
+├── scripts/            # Helper scripts
+├── tests/              # pytest suite
+├── docs/               # Documentation
+├── config.yaml         # Server configuration
+├── models_registry.json
+├── Dockerfile
+├── docker-compose.yml
+└── run.bat
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Whether it's a bug report, documentation improvement, or a new provider adapter — every bit helps.
+Contributions are welcome! Whether it's a bug report, documentation improvement, or a new provider adapter.
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the development workflow and coding standards.
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the development workflow.
 
-### Quick Links
-
-- 🐛 [Report a Bug](https://github.com/ahmedeltataw/GateKeeper/issues/new?template=bug_report.md)
-- 💡 [Request a Feature](https://github.com/ahmedeltataw/GateKeeper/issues/new?template=feature_request.md)
+- 🐛 [Report a Bug](https://github.com/ahmedeltataw/GateKeeper/issues/new)
+- 💡 [Request a Feature](https://github.com/ahmedeltataw/GateKeeper/issues/new)
 - 🔧 [Add a Provider](CONTRIBUTING.md#adding-a-new-provider)
 - 📖 [Read the Docs](docs/)
 

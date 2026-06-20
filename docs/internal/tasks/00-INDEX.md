@@ -1,4 +1,4 @@
-# 📋 Tasks Index — Personal LLM Gateway
+# 📋 Tasks Index — Personal GateKeeper
 
 > **For the executor AI:** Implement these tasks **in order**. Each task is self-contained but always cross-check against `docs/plan/IMPLEMENTATION_PLAN.md` — it is the authoritative spec. Do **not** skip a task's *Acceptance criteria*; the reviewer checks them.
 >

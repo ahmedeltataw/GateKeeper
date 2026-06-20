@@ -1,10 +1,10 @@
-# 🤖 Executor Prompt — Personal LLM Gateway
+# 🤖 Executor Prompt — Personal GateKeeper
 
 > Hand this prompt to the executor AI. It is self-contained.
 
 ---
 
-You are implementing the **Personal LLM Gateway**, a Python 3.11+ / FastAPI project located at `D:\ai-project\free models`.
+You are implementing the **Personal GateKeeper**, a Python 3.11+ / FastAPI project located at `D:\ai-project\free models`.
 
 ## Authoritative sources
 - **`docs/plan/IMPLEMENTATION_PLAN.md`** — the complete, authoritative spec. Every behavior, schema, value, and file path is defined there by section number (e.g. §5, §13).

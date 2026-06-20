@@ -12,7 +12,7 @@ Stand up the FastAPI app with the three core endpoints and middleware. After thi
 
 ## Detailed spec
 ### server.py (§15)
-- `FastAPI(title="Personal LLM Gateway", version="1.0.0", docs_url="/docs", redoc_url="/redoc")`.
+- `FastAPI(title="Personal GateKeeper", version="1.0.0", docs_url="/docs", redoc_url="/redoc")`.
 - CORS: if `host==127.0.0.1` → `allow_origins=["*"], allow_credentials=False`; else explicit origins + credentials True.
 - `@app.on_event("startup")`: `await registry.load()`, `await key_manager.init()` (key_manager may be a stub until task 13 — guard import).
 - `@app.on_event("shutdown")`: `await rate_limiter.save_state()` (guard until task 11).

@@ -1,4 +1,4 @@
-# 🏗️ Personal LLM Gateway — Implementation Plan (Self-Contained)
+# 🏗️ Personal GateKeeper — Implementation Plan (Self-Contained)
 
 > **Purpose:** This single file is the complete, self-contained implementation spec. It consolidates ALL details from `docs/` + `models-classification.md` + `README.md` so implementation can start immediately even after the source docs are deleted.
 > **Project root:** `D:\ai-project\free models`
@@ -716,7 +716,7 @@ services:
 
 ## 15. Server wiring (`server.py`)
 ```python
-app = FastAPI(title="Personal LLM Gateway",
+app = FastAPI(title="Personal GateKeeper",
     description="مجمع النماذج المجانية في API واحد",
     version="1.0.0", docs_url="/docs", redoc_url="/redoc")
 

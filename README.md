@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🧩 GateKeeper: The Ultimate Local-First LLM Gateway
 
 **GateKeeper: Take full control of your AI costs and operations with a local-first gateway.**
@@ -232,5 +230,6 @@ pytest -q
 ## 📄 License
 
 MIT — see `LICENSE`.
-#   G a t e K e e p e r  
+#   G a t e K e e p e r 
+ 
  

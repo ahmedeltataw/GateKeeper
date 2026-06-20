@@ -1,0 +1,20 @@
+# Code Owners for GateKeeper
+# These owners will be automatically requested for review
+# when a pull request modifies matching files.
+
+# Default owner for everything
+* @ahmedeltataw
+
+# Core providers
+src/providers/ @ahmedeltataw
+
+# API and routing
+src/api/ @ahmedeltataw
+src/core/ @ahmedeltataw
+
+# Dashboard
+dashboard/ @ahmedeltataw
+
+# Configuration
+config.yaml @ahmedeltataw
+models_registry.json @ahmedeltataw

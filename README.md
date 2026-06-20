@@ -1,139 +1,212 @@
-# 🧩 GateKeeper: The Ultimate Local-First LLM Gateway
+<div align="center">
 
-**GateKeeper: Take full control of your AI costs and operations with a local-first gateway.**
+<a href="https://github.com/ahmedeltataw/GateKeeper">
+  <img src="https://placehold.co/900x200/0a0a0f/F5A623?text=🧩+GateKeeper&font=source-sans-pro" alt="GateKeeper Banner" width="900">
+</a>
 
-A local-first gateway that unifies free & paid LLM providers behind one OpenAI-compatible API — with privacy, cost control, and self-healing routing built in.
+# 🧩 GateKeeper
 
-![Python](https://img.shields.io/badge/python-3.12+-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Local First](https://img.shields.io/badge/local--first-100%25-success)
-![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI%20compatible-orange)
+### The Ultimate Local-First LLM Gateway
+
+**Take full control of your AI costs and operations — one endpoint, every provider.**
+
+A self-hosted control plane that unifies free & paid LLM providers behind a single **OpenAI-compatible API** — with privacy, cost control, and self-healing routing built in.
+
+---
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-00CEC0?style=for-the-badge)](LICENSE)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ahmedeltataw/GateKeeper/pytest.yml?style=for-the-badge&label=tests&logo=github-actions&logoColor=white)](https://github.com/ahmedeltataw/GateKeeper/actions)
+[![Local-First](https://img.shields.io/badge/local--first-100%25-6C5CE7?style=for-the-badge&logo=lock&logoColor=white)](#-security--privacy)
+[![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI%20compatible-FF6B35?style=for-the-badge&logo=openai&logoColor=white)](#-usage)
+[![Docker](https://img.shields.io/badge/docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#-docker)
+
+<br>
+
+**[Quick Start](#-installation)** · **[Features](#-features)** · **[Architecture](#-architecture)** · **[Providers](#-supported-providers)** · **[API Reference](#-usage)** · **[Contributing](#-contributing)**
 
 </div>
 
 ---
 
-## Project Overview
+## 🎯 Why GateKeeper?
 
-**GateKeeper** is a self-hosted control plane for large language models. It runs
-entirely on your own machine and exposes a single **OpenAI-compatible** endpoint
-(`/v1/chat/completions`, `/v1/models`) that fans out to dozens of providers —
-Groq, Google Gemini, OpenRouter, Cloudflare, GitHub Models, Mistral, NVIDIA, and
-more.
+> **The problem:** You scatter API keys across every tool, pay for redundant subscriptions, and have zero visibility into usage — while your prompts and keys leak to third parties.
 
-Instead of scattering API keys across every tool and paying for redundant
-subscriptions, you point your apps at **one local address** and GateKeeper
-handles routing, fallback, rate limits, quotas, and health — privately.
+> **The solution:** Point every app at **one local address**. GateKeeper routes, falls back, rate-limits, tracks quotas, and monitors health — **privately**.
 
-> **Local-first means your prompts, keys, and usage data never leave your
-> computer.** No middle-man server, no telemetry, no cloud account required.
-
-> **Why "GateKeeper"?** The name says exactly what it does: it stands at the gate
-> between your apps and every LLM provider, **guarding your tokens and your
-> privacy**. Every key, quota, and prompt passes through GateKeeper — and nothing
-> slips past it to the cloud. It is the gatekeeper for your tokens and your data.
+| Without GateKeeper | With GateKeeper |
+|:---:|:---:|
+| 🔑 API keys in every `.env` | 🔐 **One encrypted vault** |
+| 💸 Paying for 5+ subscriptions | 💰 **Free providers first, paid as fallback** |
+| 💥 One dead provider = broken app | 🔄 **4-tier automatic fallback** |
+| 🔍 No idea what's happening | 📊 **Real-time dashboard & analytics** |
+| 🌐 Prompts sent to unknown servers | 🏠 **Local-first — nothing leaves your machine** |
 
 ---
 
 ## ✨ Features
 
-| | Feature | Description |
-|---|---|---|
-| 🔑 | **Encrypted key vault** | Provider keys are encrypted at rest with **AES-256-GCM** in a local SQLite database — never stored in plaintext. |
-| 🔀 | **Smart routing & fallback** | Each request is routed to the best provider for the task; on failure it transparently fails over to the next, so a single dead provider never breaks a call. |
-| 🩺 | **Self-healing health monitor** | A background task continuously probes providers and **auto-disables** unhealthy or rate-limited ones, re-enabling them once they recover. |
-| 📊 | **Quota & usage tracking** | Per-client, per-model usage counters (requests + tokens) measured against subscription quotas, with live progress bars in the dashboard. |
-| 🎨 | **Dark-mode dashboard** | A clean Streamlit control panel for keys, models, provider health, and usage analytics. |
-| 🧠 | **OpenCode support** | A dedicated `/v1/opencode/models` endpoint serves a model list in the exact shape OpenCode expects. |
-| 👥 | **Multi-tenant ready (SaaS)** | Issue API keys per client; each key sees only the models its plan entitles it to. |
-| 🛡️ | **Circuit breaker** | Repeatedly failing models are temporarily blacklisted to protect latency and provider budgets. |
+<table>
+<tr>
+<td width="50%">
+
+### 🔐 Security & Privacy
+- **AES-256-GCM** encrypted key vault (SQLite)
+- **SHA-256** hashed client keys
+- Local-first — **zero telemetry**
+- Secrets auto-generated on first run
+
+### 🔀 Smart Routing
+- **4-tier fallback engine** with context handoff
+- Per-task quality router (coding, search, reasoning, ...)
+- Sticky sessions for conversation continuity
+- Streaming support with pre-first-byte failover
+
+</td>
+<td width="50%">
+
+### 🩺 Self-Healing
+- Background **health probes** with passive-first strategy
+- **Circuit breaker** with auto-blacklist
+- Smart diagnostics: 413 shrink, 5xx backoff
+- Auto-recovery when providers come back online
+
+### 📊 Observability
+- **Streamlit dashboard** with dark mode
+- Per-provider latency, token, and request analytics
+- Live usage vs. quota progress bars
+- Cache hit rate tracking
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
+
+```
+                    ┌─────────────────────────────────────────┐
+                    │              Your Applications           │
+                    │   (OpenCode, Hermes, scripts, agents)   │
+                    └──────────────────┬──────────────────────┘
+                                       │
+                               OpenAI-compatible
+                                       │
+                    ┌──────────────────▼──────────────────────┐
+                    │            🧩 GATEKEEPER                 │
+                    │         127.0.0.1:8000/v1               │
+                    │                                         │
+                    │  ┌─────────┐ ┌──────────┐ ┌──────────┐ │
+                    │  │  Auth   │ │  Cache   │ │  Rate    │ │
+                    │  │Middleware│ │  (LRU)   │ │ Limiter  │ │
+                    │  └────┬────┘ └────┬─────┘ └────┬─────┘ │
+                    │       │           │            │        │
+                    │  ┌────▼───────────▼────────────▼─────┐  │
+                    │  │        Quality Router (auto)       │  │
+                    │  │   task_type → best model chain     │  │
+                    │  └────────────────┬──────────────────┘  │
+                    │                   │                      │
+                    │  ┌────────────────▼──────────────────┐  │
+                    │  │      4-Tier Fallback Engine        │  │
+                    │  │  T1: same model → other provider   │  │
+                    │  │  T2: same strength, other model    │  │
+                    │  │  T3: one strength lower            │  │
+                    │  │  T4: any available with budget     │  │
+                    │  └────────────────┬──────────────────┘  │
+                    │                   │                      │
+                    │  ┌────────────────▼──────────────────┐  │
+                    │  │  Diagnostics · Circuit · Health    │  │
+                    │  └────────────────┬──────────────────┘  │
+                    └───────────────────┼─────────────────────┘
+                                        │
+           ┌────────────┬───────────────┼───────────────┬────────────┐
+           ▼            ▼               ▼               ▼            ▼
+     ┌──────────┐ ┌──────────┐  ┌────────────┐  ┌──────────┐ ┌──────────┐
+     │  Groq    │ │  Gemini  │  │ OpenRouter  │  │ Mistral  │ │  + 8 more│
+     │ 🟢 free  │ │ 🟢 free  │  │ 🟡 free tier│  │ 🟡 free  │ │ providers│
+     └──────────┘ └──────────┘  └────────────┘  └──────────┘ └──────────┘
+```
 
 ---
 
 ## 🚀 Installation
 
-**Requirements:** Python 3.12+ and at least one free provider API key
-(e.g. [Groq](https://console.groq.com/keys),
-[Gemini](https://aistudio.google.com/apikey),
-[OpenRouter](https://openrouter.ai/settings/keys)).
+### Prerequisites
 
-### Windows — one click
+- **Python 3.12+**
+- At least one free API key:
+  [Groq](https://console.groq.com/keys) ·
+  [Gemini](https://aistudio.google.com/apikey) ·
+  [OpenRouter](https://openrouter.ai/settings/keys)
+
+### Windows — One Click
 
 ```bash
-git clone <repo-url>
-cd "free models"
+git clone https://github.com/ahmedeltataw/GateKeeper.git
+cd GateKeeper
 run.bat
 ```
 
-`run.bat` creates the virtual environment, installs dependencies, prepares your
-`.env`, starts the gateway, and opens it in your browser. That's it.
+> `run.bat` creates the venv, installs deps, generates your `ENCRYPTION_KEY`, starts the gateway, and opens the dashboard. **That's it.**
 
 ### macOS / Linux
 
 ```bash
-git clone <repo-url>
-cd "free models"
+git clone https://github.com/ahmedeltataw/GateKeeper.git
+cd GateKeeper
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn src.api.server:app --host 127.0.0.1 --port 8000
 ```
 
-The gateway is now live at **http://127.0.0.1:8000** (interactive docs at `/docs`).
+### 🐳 Docker
 
-### First-run setup
+```bash
+docker compose up -d
+```
 
-On first launch, **`run.bat` generates your `ENCRYPTION_KEY` automatically** and
-saves it to a local `.env` — no external key file, no manual step. The key never
-leaves your machine.
-
-You only need to supply **at least one provider key** (e.g. `GROQ_KEY`,
-`GEMINI_KEY`, `OPENROUTER_KEY`) — either in `.env` or later from the dashboard.
-
-> On macOS/Linux, generate the key once with:
-> ```bash
-> python scripts/ensure_env_key.py
-> ```
+The gateway is now live at **http://127.0.0.1:8000** — interactive docs at [`/docs`](http://127.0.0.1:8000/docs).
 
 ---
 
 ## 📖 Usage
 
-### 1. Add provider keys
+### 1. Add Provider Keys
 
-Either set them in `.env` (auto-imported on first run), or add them at runtime
-from the **dashboard → Keys** page. Keys are encrypted immediately and only
-decrypted in memory at request time.
+Via the **dashboard → Keys** page (recommended), or in `.env`:
 
-### 2. Call it like OpenAI
+```env
+GROQ_KEY=gsk_...
+GEMINI_KEY=AIza...
+OPENROUTER_KEY=sk-or-...
+```
+
+> Keys are **encrypted with AES-256-GCM** the moment they're saved and only decrypted in memory at request time.
+
+### 2. Call It Like OpenAI
 
 ```bash
 curl http://127.0.0.1:8000/v1/chat/completions \
-  -H "Authorization: Bearer sk-local" \
+  -H "Authorization: Bearer ***" \
   -H "Content-Type: application/json" \
-  -d '{"model": "or-gpt-oss-120b", "messages": [{"role":"user","content":"Hello!"}]}'
+  -d '{
+    "model": "auto",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
 ```
 
-### 3. Connect to OpenCode
+### 3. Use With Your Favorite Tools
 
-Point OpenCode at the gateway as a custom OpenAI-compatible provider:
+| Tool | Base URL | API Key |
+|------|----------|---------|
+| **OpenCode** | `http://127.0.0.1:8000/v1` | `sk-local` |
+| **Hermes Agent** | `http://127.0.0.1:8000/v1` | `sk-local` |
+| **OpenAI SDK** | `http://127.0.0.1:8000/v1` | `sk-local` |
+| **curl / HTTP** | `http://127.0.0.1:8000/v1` | `sk-local` |
 
-| Setting | Value |
-|---|---|
-| **Base URL** | `http://127.0.0.1:8000/v1` |
-| **API Key** | your client key (e.g. `sk-local`) |
-
-Fetch the model list in OpenCode's format:
-
-```bash
-curl http://127.0.0.1:8000/v1/opencode/models \
-  -H "Authorization: Bearer sk-local" -o opencode_models.json
-```
-
-The list is **automatically filtered to the models your key is entitled to** —
-regular keys see shared (Auto) models, enterprise keys also see their dedicated
-allocations.
-
-### 4. Launch the dashboard (optional)
+### 4. Launch the Dashboard (Optional)
 
 ```bash
 cd dashboard
@@ -141,36 +214,48 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Manage keys, inspect provider health, and watch live **usage vs. quota** bars.
+---
+
+## 🔀 Supported Providers
+
+<table>
+<tr>
+<th>Provider</th>
+<th>Tier</th>
+<th>Free Models</th>
+<th>Highlights</th>
+</tr>
+<tr><td>🟣 <b>Groq</b></td><td>Free</td><td>Llama 3.3 70B, GPT-OSS 120B</td><td>Ultra-fast inference, generous RPM</td></tr>
+<tr><td>🔵 <b>Google Gemini</b></td><td>Free</td><td>Gemini 2.5 Flash, Gemini 2.5 Pro</td><td>Huge context window, vision support</td></tr>
+<tr><td>🟠 <b>OpenRouter</b></td><td>Free tier</td><td>50+ models (Llama, Gemma, Qwen...)</td><td>Aggregator — one key, many models</td></tr>
+<tr><td>🔴 <b>Mistral</b></td><td>Free tier</td><td>Codestral, Mistral Large</td><td>Top coding model, European hosting</td></tr>
+<tr><td>⚫ <b>GitHub Models</b></td><td>Free tier</td><td>GPT-4o, Phi-4</td><td>Free via GitHub account</td></tr>
+<tr><td>🟢 <b>NVIDIA</b></td><td>Free tier</td><td>DeepSeek R1, Llama 3.3 70B</td><td>Enterprise GPU cluster</td></tr>
+<tr><td>🟤 <b>Cerebras</b></td><td>Free tier</td><td>GPT-OSS 120B</td><td>Wafer-scale inference</td></tr>
+<tr><td>🟡 <b>Cloudflare Workers AI</b></td><td>Free tier</td><td>Llama 3.2 11B Vision</td><td>Edge inference, neurons-based billing</td></tr>
+<tr><td>🔵 <b>Zhipu (GLM)</b></td><td>Free tier</td><td>GLM-4 Flash</td><td>Chinese LLM leader</td></tr>
+<tr><td>🟣 <b>Hugging Face</b></td><td>Free tier</td><td>100+ open models</td><td>Open-source model hub</td></tr>
+<tr><td>🟢 <b>Aion Labs</b></td><td>Free tier</td><td>Aion Nemotron</td><td>Specialized inference</td></tr>
+<tr><td>🔴 <b>Cohere</b></td><td>Free tier</td><td>Command R+</td><td>RAG-optimized, multilingual</td></tr>
+</table>
 
 ---
 
 ## ⚙️ Configuration
 
-### Adding API keys (recommended: the control panel)
+All settings live in `config.yaml`. Key options:
 
-The easiest and safest way to add provider keys is the **dashboard → Keys** page:
-
-1. Launch the dashboard (see step 4 above) and open **Keys**.
-2. Pick a provider, paste its API key, and save.
-3. The key is **encrypted with AES-256-GCM the moment it's saved** and written to
-   a local SQLite vault. It is only ever decrypted in memory, at request time —
-   it is never logged, echoed back, or stored in plaintext.
-
-You can also pre-seed keys via `.env` (`GROQ_KEY=...`, `GEMINI_KEY=...`); they are
-imported into the encrypted vault on first startup, after which `.env` is no
-longer needed for them.
-
-### Server settings
-
-`config.yaml` controls host/port, auth, caching, rate limits, circuit breaker,
-and quota enforcement. Highlights:
-
-| Key | Purpose |
-|-----|---------|
-| `auth.multi_tenant` | Issue per-client keys, each scoped to its plan's models |
-| `usage.enforce` | Enforce daily request/token quotas (returns HTTP 429 when exceeded) |
-| `circuit.*` | Failure thresholds before a model is paused/blacklisted |
+| Section | Key | Default | Description |
+|---------|-----|---------|-------------|
+| `server` | `host` / `port` | `127.0.0.1` / `8000` | Bind address |
+| `auth` | `api_key` | `sk-local` | Master API key |
+| `auth` | `multi_tenant` | `false` | Per-client keys |
+| `cache` | `enabled` / `ttl` | `true` / `300s` | Response cache |
+| `rate_limiter` | `enabled` | `true` | Token-bucket rate limits |
+| `circuit` | `failures_to_open` | `3` | Breaker threshold |
+| `circuit` | `opens_to_blacklist` | `3` | Auto-blacklist after N opens |
+| `usage` | `enforce` | `false` | Return 429 on quota exceeded |
+| `diagnostics` | `max_remediation_attempts` | `2` | Auto-repair retries |
 
 ---
 
@@ -178,58 +263,78 @@ and quota enforcement. Highlights:
 
 GateKeeper is **local-first by design**. Your data stays on your machine.
 
-- **Nothing leaves your computer.** The gateway runs on `127.0.0.1`. Prompts,
-  responses, API keys, and usage counters are processed and stored **locally** —
-  there is no vendor backend and no telemetry.
-- **Keys encrypted at rest.** Provider keys live in a local SQLite database,
-  encrypted with **AES-256-GCM**. The decryption key (`ENCRYPTION_KEY`) is read
-  from your `.env` and held only in memory.
-- **Client keys are hashed.** Tenant API keys are stored as **SHA-256 hashes** —
-  the raw key is never written to disk.
-- **Secrets stay out of version control.** `.env`, `*.key`, and `*.db` are
-  git-ignored by default; nothing sensitive is ever committed.
-- **You own the data.** The only outbound traffic is the request **you** make to
-  the upstream LLM provider you configured — exactly as if you had called that
-  provider directly.
+| Layer | Protection |
+|-------|-----------|
+| **Provider keys** | AES-256-GCM encrypted at rest in SQLite |
+| **Client keys** | SHA-256 hashed — raw key never written to disk |
+| **Network** | Binds to `127.0.0.1` — no external access |
+| **Telemetry** | Zero — no analytics, no phone-home |
+| **Secrets** | `.env`, `*.key`, `*.db` git-ignored by default |
+| **Data flow** | Only outbound traffic is to providers **you** configured |
 
-> When you sell or share this gateway, each customer runs their **own** instance.
-> Their keys and traffic never touch yours.
-
----
-
-## 🗂️ Project structure
-
-```
-free models/
-├─ src/
-│  ├─ api/          # FastAPI server, routes, middleware, admin endpoints
-│  ├─ core/         # registry, router, fallback, circuit, health, usage, tenant
-│  └─ providers/    # one adapter per upstream provider
-├─ dashboard/       # Streamlit control panel (keys, models, analytics)
-├─ scripts/         # helpers (ensure_env_key.py, sync_models.py)
-├─ tests/           # pytest suite
-├─ docs/            # public docs (docs/internal/ holds dev notes)
-├─ config.yaml      # server, auth, cache, rate-limit, quota settings
-├─ requirements.txt # runtime deps (requirements-dev.txt for tests)
-├─ run.bat          # Windows one-click launcher
-├─ LICENSE          # MIT
-└─ CONTRIBUTING.md
-```
+> When you sell or share this gateway, each customer runs their **own** instance. Their keys and traffic never touch yours.
 
 ---
 
 ## 🧪 Development
 
 ```bash
+# Install dev dependencies
 pip install -r requirements.txt -r requirements-dev.txt
+
+# Run the full test suite
 pytest -q
+
+# Run with coverage
+pytest --cov=src --cov-report=term-missing
 ```
+
+### Project Structure
+
+```
+GateKeeper/
+├── src/
+│   ├── api/              # FastAPI server, routes, middleware
+│   ├── core/             # Router, fallback, circuit breaker, health
+│   └── providers/        # One adapter per upstream provider (12 total)
+├── dashboard/            # Streamlit control panel
+├── scripts/              # Helper scripts
+├── tests/                # pytest suite
+├── docs/                 # Documentation
+├── config.yaml           # Server configuration
+├── models_registry.json  # Model catalog
+├── Dockerfile            # Container build
+├── docker-compose.yml    # One-command deployment
+└── run.bat               # Windows one-click launcher
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's a bug report, documentation improvement, or a new provider adapter — every bit helps.
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the development workflow and coding standards.
+
+### Quick Links
+
+- 🐛 [Report a Bug](https://github.com/ahmedeltataw/GateKeeper/issues/new?template=bug_report.md)
+- 💡 [Request a Feature](https://github.com/ahmedeltataw/GateKeeper/issues/new?template=feature_request.md)
+- 🔧 [Add a Provider](CONTRIBUTING.md#adding-a-new-provider)
+- 📖 [Read the Docs](docs/)
 
 ---
 
 ## 📄 License
 
-MIT — see `LICENSE`.
-#   G a t e K e e p e r 
- 
- 
+MIT License — see **[LICENSE](LICENSE)** for details.
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [Ahmed Eltatawy](https://github.com/ahmedeltataw)**
+
+If you find GateKeeper useful, consider giving it a ⭐ — it helps others discover the project!
+
+</div>

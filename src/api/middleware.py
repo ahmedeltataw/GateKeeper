@@ -18,6 +18,12 @@ from src.core.config_loader import get_config
 class AuthMiddleware(BaseHTTPMiddleware):
     """Bearer-token auth for all routes except public health checks."""
 
+    # First-run onboarding (see src/api/setup.py). `status` is always public;
+    # `bootstrap` is public ONLY until a token exists, after which it falls
+    # through to normal admin auth and the endpoint itself returns 409.
+    _SETUP_STATUS_PATH = "/admin/setup/status"
+    _SETUP_BOOTSTRAP_PATH = "/admin/setup/bootstrap"
+
     @staticmethod
     def _auth_error(message: str) -> Response:
         """Return a fixed OpenAI-style 401 for client auth failures."""
@@ -57,6 +63,14 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
         if config.dashboard.enabled and request.url.path.startswith("/admin"):
             admin_token = config.dashboard.admin_token
+
+            # First-run onboarding: let the dashboard reach setup without a token.
+            path = request.url.path
+            if path == self._SETUP_STATUS_PATH:
+                return await call_next(request)
+            if path == self._SETUP_BOOTSTRAP_PATH and not admin_token:
+                return await call_next(request)
+
             # 403 differentiates server misconfiguration from a bad client token.
             if not admin_token:
                 return self._admin_not_configured_response()

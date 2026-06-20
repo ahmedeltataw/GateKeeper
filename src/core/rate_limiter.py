@@ -19,7 +19,7 @@ RATE_LIMITS: dict[str, dict[str, Any]] = {
     "nvidia": {"rpm": 40, "rpd": 1000},
     "cerebras": {"rpm": 30, "rpd": 14_400},
     "cloudflare": {"neurons": 10_000},
-    "zhipu": {"concurrent": 1},
+    "zai": {"concurrent": 1},
     "huggingface": {"rpm": 10, "rpd": 100},
     "aion": {"rpm": 15, "rpd": 20, "tpd": 20_000},
     "cohere": {"rpm": 20, "rpd": 33},

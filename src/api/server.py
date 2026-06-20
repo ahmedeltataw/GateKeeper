@@ -9,7 +9,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from src.api import admin, dashboard
+from src.api import admin, dashboard, setup
 from src.api.middleware import AuthMiddleware, LoggerMiddleware, attach_cors
 from src.api.routes import error_response, router
 from src.core import benchmark, catalog, circuit, health, key_manager, rate_limiter, tenant, usage
@@ -78,6 +78,7 @@ def create_app() -> FastAPI:
     app.include_router(router)
 
     if get_config().dashboard.enabled:
+        app.include_router(setup.router)  # public first-run onboarding
         app.include_router(admin.router)
 
     @app.exception_handler(GatewayError)

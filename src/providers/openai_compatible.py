@@ -94,6 +94,10 @@ class OpenAICompatibleProvider(BaseProvider):
             raise ProviderError(f"{self.provider_id} request timed out", "timeout") from exc
         except httpx.HTTPStatusError as exc:
             raise self._map_http_error(exc) from exc
+        except httpx.RequestError as exc:
+            # DNS failure, refused connection, unreachable URL, TLS error, etc.
+            # Map to a fallback-eligible 5xx instead of leaking a raw httpx error.
+            raise ProviderError(f"{self.provider_id} unreachable: {exc}", "5xx") from exc
 
         data = response.json()
         return self._translate_response(data, request.model)

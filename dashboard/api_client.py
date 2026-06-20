@@ -30,6 +30,10 @@ class GatewayUnavailableError(AdminApiError):
     """Raised when the gateway cannot be reached over HTTP."""
 
 
+class SetupAlreadyDoneError(AdminApiError):
+    """Raised when first-run bootstrap is attempted but a token already exists."""
+
+
 @dataclass(frozen=True, slots=True)
 class AdminStats:
     """Counters returned by `GET /admin/stats`."""
@@ -258,3 +262,31 @@ class AdminApiClient:
         it is returned as-is for the analytics page to render.
         """
         return list(self._request("GET", "/admin/usage").json())
+
+
+def fetch_setup_status(gateway_url: str) -> bool:
+    """Return whether the gateway still needs first-run admin setup (no auth)."""
+    url = gateway_url.rstrip("/")
+    try:
+        with httpx.Client(base_url=url, timeout=_REQUEST_TIMEOUT_SECONDS) as client:
+            response = client.get("/admin/setup/status")
+    except httpx.RequestError as exc:
+        raise GatewayUnavailableError(f"Could not reach the gateway at {url}.") from exc
+    if response.is_error:
+        raise AdminApiError(f"Gateway returned HTTP {response.status_code}.")
+    return bool(response.json().get("needs_setup", False))
+
+
+def bootstrap_admin_token(gateway_url: str) -> str:
+    """Mint the first-run admin token (no auth). Raise if one already exists."""
+    url = gateway_url.rstrip("/")
+    try:
+        with httpx.Client(base_url=url, timeout=_REQUEST_TIMEOUT_SECONDS) as client:
+            response = client.post("/admin/setup/bootstrap")
+    except httpx.RequestError as exc:
+        raise GatewayUnavailableError(f"Could not reach the gateway at {url}.") from exc
+    if response.status_code == 409:
+        raise SetupAlreadyDoneError("The gateway already has an admin token configured.")
+    if response.is_error:
+        raise AdminApiError(f"Gateway returned HTTP {response.status_code}.")
+    return str(response.json()["admin_token"])

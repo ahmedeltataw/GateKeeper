@@ -32,7 +32,7 @@ providers:
   nvidia:        {base_url: "https://integrate.api.nvidia.com/v1"}
   cerebras:      {base_url: "https://api.cerebras.ai/v1"}
   cloudflare:    {base_url: "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run"}
-  zhipu:         {base_url: "https://api.z.ai/api/paas/v4"}
+  zai:           {base_url: "https://api.z.ai/api/paas/v4"}
   huggingface:   {base_url: "https://router.huggingface.co/v1"}
   aion:          {base_url: "https://api.aionlabs.ai/v1"}
   cohere:        {base_url: "https://api.cohere.com/v2"}

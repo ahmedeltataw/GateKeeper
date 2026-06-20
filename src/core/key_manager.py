@@ -92,6 +92,7 @@ class KeyManager:
 
     async def _bootstrap_from_env(self) -> None:
         """Import keys from environment variables when the database is empty."""
+        # Legacy providers (not yet migrated to plugin specs).
         env_var_map = {
             "openrouter": "OPENROUTER_KEY",
             "gemini": "GEMINI_KEY",
@@ -101,11 +102,15 @@ class KeyManager:
             "nvidia": "NVIDIA_KEY",
             "cerebras": "CEREBRAS_KEY",
             "cloudflare": "CLOUDFLARE_API_TOKEN",
-            "zhipu": "ZHIPU_KEY",
             "huggingface": "HF_KEY",
             "aion": "AION_KEY",
             "cohere": "COHERE_KEY",
         }
+        # Plugin providers contribute their own env var (e.g. zai -> ZAI_API_KEY).
+        # Imported lazily to avoid a providers <-> core import cycle at startup.
+        from src.providers import provider_env_vars
+
+        env_var_map.update(provider_env_vars())
 
         existing = await self.list_providers_with_keys()
         if existing:

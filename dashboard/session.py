@@ -16,6 +16,7 @@ from api_client import (
     AdminTokenNotConfiguredError,
     AdminUnauthorizedError,
     GatewayUnavailableError,
+    SetupAlreadyDoneError,
 )
 
 _AUTHENTICATED_FLAG = "dashboard_authenticated"
@@ -68,6 +69,9 @@ def render_api_error(error: Exception) -> None:
         return
     if isinstance(error, GatewayUnavailableError):
         st.error("The gateway is unavailable right now. Start it first, then refresh.")
+        return
+    if isinstance(error, SetupAlreadyDoneError):
+        st.error("An admin key already exists. Sign in instead.")
         return
     if isinstance(error, AdminApiError):
         st.error("The gateway returned an unexpected error. Please try again.")

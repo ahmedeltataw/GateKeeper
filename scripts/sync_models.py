@@ -593,7 +593,7 @@ _MODELS: list[dict[str, Any]] = [
     _model(
         id="glm-4.7-flash",
         display_name="GLM-4.7-Flash",
-        provider_id="zhipu",
+        provider_id="zai",
         provider_model_id="glm-4.7-flash",
         strength="A",
         use_cases=["coding", "search", "reasoning", "data"],
@@ -604,7 +604,7 @@ _MODELS: list[dict[str, Any]] = [
     _model(
         id="glm-4.5-flash",
         display_name="GLM-4.5-Flash",
-        provider_id="zhipu",
+        provider_id="zai",
         provider_model_id="glm-4.5-flash",
         strength="A",
         use_cases=["coding", "reasoning", "search"],
@@ -615,7 +615,7 @@ _MODELS: list[dict[str, Any]] = [
     _model(
         id="glm-4.6v-flash",
         display_name="GLM-4.6V-Flash",
-        provider_id="zhipu",
+        provider_id="zai",
         provider_model_id="glm-4.6v-flash",
         strength="B",
         use_cases=["vision", "coding"],

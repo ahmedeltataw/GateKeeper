@@ -89,7 +89,7 @@ You need `ENCRYPTION_KEY` (already set) **plus at least one** provider key below
 | **NVIDIA** | `NVIDIA_KEY=nvapi-...` | https://build.nvidia.com | Llama 405B, DeepSeek R1. |
 | **Mistral** | `MISTRAL_KEY=...` | https://console.mistral.ai | Phone verify; trains on data. |
 | **GitHub Models** | `GITHUB_KEY=github_pat_...` | https://github.com/settings/personal-access-tokens (scope `models:read`) | Only no-card GPT-4o/4.1. |
-| **Z.ai / Zhipu** | `ZHIPU_KEY=...` | https://z.ai/manage-apikey/apikey-list | Strong coding (GLM). |
+| **Z.ai** | `ZAI_API_KEY=...` | https://z.ai/manage-apikey/apikey-list | Strong coding (GLM). |
 | **HuggingFace** | `HF_KEY=hf_...` | https://huggingface.co/settings/tokens/new | Eval only (~$0.10/mo). |
 
 > **Key import:** on first startup, if the SQLite DB has **no** keys yet, the gateway auto-imports any `*_KEY` it finds in `.env` (encrypted). If you add keys later and they don't take, either add them via the dashboard (`http://127.0.0.1:8000/dashboard`) or delete `server/data/gateway.db` and restart.

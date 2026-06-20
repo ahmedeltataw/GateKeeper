@@ -85,6 +85,24 @@ class DiagnosticsCfg(BaseModel):
     max_backoff_seconds: float = 8.0
 
 
+class LanguageCfg(BaseModel):
+    """Input-language preservation.
+
+    The gateway never translates user content; free models simply default to
+    English when not told otherwise. When ``preserve_input_language`` is on, a
+    single constant system directive is injected at send time so the model
+    mirrors the user's language. The text is constant, so it does not perturb
+    the cache key or the sticky-session hash (both derived earlier, upstream).
+    """
+
+    preserve_input_language: bool = True
+    directive: str = (
+        "Always respond in the same language as the user's most recent "
+        "message. Do not translate the user's content unless they explicitly "
+        "ask you to."
+    )
+
+
 class CircuitCfg(BaseModel):
     """Per-model circuit breaker + auto-blacklist thresholds."""
 
@@ -132,6 +150,7 @@ class AppConfig(BaseModel):
     providers: dict[str, ProviderCfg] = Field(default_factory=dict)
     dashboard: DashboardCfg = Field(default_factory=DashboardCfg)
     diagnostics: DiagnosticsCfg = Field(default_factory=DiagnosticsCfg)
+    language: LanguageCfg = Field(default_factory=LanguageCfg)
     circuit: CircuitCfg = Field(default_factory=CircuitCfg)
     catalog: CatalogCfg = Field(default_factory=CatalogCfg)
     usage: UsageCfg = Field(default_factory=UsageCfg)

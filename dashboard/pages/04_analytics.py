@@ -89,27 +89,39 @@ def _limit_label(limit: int) -> str:
     return "∞" if limit <= 0 else _fmt(limit)
 
 
-def _progress_bar(label: str, used: int, limit: int, percent: float) -> str:
-    """Return HTML for one animated, rounded progress bar."""
+def _progress_bar_html(label: str, used: int, limit: int, percent: float) -> str:
+    """Return HTML for one animated, rounded progress bar.
+
+    The string is deliberately free of leading whitespace/newlines: indented
+    lines would be parsed by Markdown as a code block and shown as raw text.
+    """
     color = _bar_color(percent, limit)
     width = min(100.0, percent) if limit > 0 else 0.0
     pct_text = "—" if limit <= 0 else f"{percent:.0f}%"
-    return f"""
-    <div style="margin:8px 0 14px 0;">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;
-                  font-size:0.82rem;color:{_MUTED};margin-bottom:4px;">
-        <span>{label}</span>
-        <span>{_fmt(used)} / {_limit_label(limit)}
-          &nbsp;<b style="color:{color};">{pct_text}</b></span>
-      </div>
-      <div style="background:{_TRACK};border-radius:999px;height:12px;width:100%;
-                  overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.4);">
-        <div style="background:linear-gradient(90deg,{color}cc,{color});height:12px;
-                    width:{width}%;border-radius:999px;
-                    transition:width .6s cubic-bezier(.4,0,.2,1);"></div>
-      </div>
-    </div>
+    return (
+        '<div style="margin:8px 0 14px 0;">'
+        '<div style="display:flex;justify-content:space-between;align-items:baseline;'
+        f'font-size:0.82rem;color:{_MUTED};margin-bottom:4px;">'
+        f"<span>{label}</span>"
+        f"<span>{_fmt(used)} / {_limit_label(limit)}&nbsp;"
+        f'<b style="color:{color};">{pct_text}</b></span></div>'
+        f'<div style="background:{_TRACK};border-radius:999px;height:12px;width:100%;'
+        'overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.4);">'
+        f'<div style="background:linear-gradient(90deg,{color}cc,{color});height:12px;'
+        f"width:{width}%;border-radius:999px;"
+        'transition:width .6s cubic-bezier(.4,0,.2,1);"></div></div></div>'
+    )
+
+
+def render_progress_bar(label: str, used: int, limit: int, percent: float) -> None:
+    """Render one usage bar inline. Reusable for any model or metric.
+
+    Always renders via ``st.markdown(..., unsafe_allow_html=True)`` with
+    whitespace-free HTML, so the bar can never regress into raw text.
     """
+    st.markdown(
+        _progress_bar_html(label, used, limit, percent), unsafe_allow_html=True
+    )
 
 
 def _tier_badge(tier: str) -> str:
@@ -129,16 +141,16 @@ def _render_model_card(model: dict[str, Any]) -> None:
             f'<div style="font-size:1.05rem;font-weight:600;margin-bottom:2px;">'
             f'{model["name"]}{_tier_badge(model.get("tier", "auto"))}</div>'
             f'<div style="color:{_MUTED};font-size:0.75rem;margin-bottom:8px;">'
-            f'<code>{model["id"]}</code></div>'
-            + _progress_bar(
-                "Tokens", model["usage"]["tokens"],
-                model["limit"]["tokens"], model["percent"]["tokens"],
-            )
-            + _progress_bar(
-                "Requests", model["usage"]["requests"],
-                model["limit"]["requests"], model["percent"]["requests"],
-            ),
+            f'<code>{model["id"]}</code></div>',
             unsafe_allow_html=True,
+        )
+        render_progress_bar(
+            "Tokens", model["usage"]["tokens"],
+            model["limit"]["tokens"], model["percent"]["tokens"],
+        )
+        render_progress_bar(
+            "Requests", model["usage"]["requests"],
+            model["limit"]["requests"], model["percent"]["requests"],
         )
 
 
@@ -159,11 +171,8 @@ def _render_account_summary(doc: dict[str, Any]) -> None:
     col1.metric("Tokens today", f"{_fmt(totals['tokens'])} / {_limit_label(quota['tokens'])}")
     col2.metric("Requests today", f"{_fmt(totals['requests'])} / {_limit_label(quota['requests'])}")
 
-    st.markdown(
-        _progress_bar("Account tokens", totals["tokens"], quota["tokens"], pct["tokens"])
-        + _progress_bar("Account requests", totals["requests"], quota["requests"], pct["requests"]),
-        unsafe_allow_html=True,
-    )
+    render_progress_bar("Account tokens", totals["tokens"], quota["tokens"], pct["tokens"])
+    render_progress_bar("Account requests", totals["requests"], quota["requests"], pct["requests"])
 
 
 def _render_welcome(message: str) -> None:

@@ -52,9 +52,9 @@ _FAILURE_HEALTH: dict[str, str] = {
 _HANDOFF_TEMPLATE = (
     "[Note: This conversation was started with {original_model}.\n"
     "The current model ({new_model}) is continuing the conversation\n"
-    "because the original was unavailable. Please maintain the same\n"
-    "tone, style, and follow the existing conversation flow.\n"
-    "Please continue where the previous model left off."
+    "because the original was unavailable. Maintain the same tone, style,\n"
+    "and language as the prior turns, and reply in the same language the\n"
+    "user is writing in. Continue where the previous model left off.]"
 )
 
 # In-process counter exposed to the /health endpoint.
@@ -154,6 +154,23 @@ def _inject_context_handoff(request: ChatRequest, original: str, new: str) -> Ch
     return request.model_copy(update={"messages": messages})
 
 
+def _inject_language_directive(request: ChatRequest) -> ChatRequest:
+    """Prepend a constant 'reply in the user's language' system message.
+
+    Runs at send time, after session-id and cache-key derivation, so the
+    injected (constant) text leaves the sticky-session hash and cache key
+    unchanged. The leading position means it survives a 413 shrink, which
+    always keeps the first system message.
+    """
+    cfg = get_config().language
+    if not cfg.preserve_input_language:
+        return request
+    from src.core.types import Message
+
+    directive = Message(role="system", content=cfg.directive)
+    return request.model_copy(update={"messages": [directive, *request.messages]})
+
+
 async def _try_single_model(
     request: ChatRequest,
     model: ModelInfo,
@@ -186,7 +203,7 @@ async def _try_single_model(
         return None
 
     provider = await get_provider(provider_id)
-    resolved_request = request
+    resolved_request = _inject_language_directive(request)
     if tier >= 2 and model.id != original_model:
         resolved_request = _inject_context_handoff(request, original_model, model.id)
     # Proactive remediation: clamp the request to the model's limits before send.

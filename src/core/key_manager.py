@@ -112,11 +112,14 @@ class KeyManager:
 
         env_var_map.update(provider_env_vars())
 
-        existing = await self.list_providers_with_keys()
-        if existing:
-            return
-
+        # Import per-provider for any provider NOT already in the vault. The old
+        # all-or-nothing guard (return early if *any* key existed) meant keys
+        # added to .env after the first run were silently never imported — a new
+        # provider key would never activate until the DB was wiped.
+        existing = set(await self.list_providers_with_keys())
         for provider_id, env_var in env_var_map.items():
+            if provider_id in existing:
+                continue
             value = os.environ.get(env_var)
             if value:
                 await self.set_key(provider_id, value)

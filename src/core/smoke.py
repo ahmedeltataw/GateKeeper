@@ -20,6 +20,28 @@ from src.core.router import get_provider
 from src.core.types import ChatRequest, Message, ProviderError
 
 
+def _as_text(content: Any) -> str:
+    """Flatten a completion's ``content`` to text.
+
+    Most providers return a plain string, but some (multimodal / Anthropic-style)
+    return a list of content parts like ``[{"type": "text", "text": "OK"}]``.
+    Normalise both so the smoke check never crashes on a non-string payload.
+    """
+    if content is None:
+        return ""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for part in content:
+            if isinstance(part, str):
+                parts.append(part)
+            elif isinstance(part, dict):
+                parts.append(part.get("text") or part.get("content") or "")
+        return "".join(parts)
+    return str(content)
+
+
 async def smoke_test_model(
     model: Any,
     *,
@@ -50,7 +72,8 @@ async def smoke_test_model(
         return {"ok": False, "code": "5xx", "detail": repr(exc)}
 
     latency_ms = round((time.time() - start) * 1000, 1)
-    content = (response.choices[0].message.get("content") or "") if response.choices else ""
+    raw = response.choices[0].message.get("content") if response.choices else ""
+    content = _as_text(raw)
     if not content.strip():
         return {"ok": False, "code": "empty", "detail": "empty completion", "latency_ms": latency_ms}
     return {"ok": True, "latency_ms": latency_ms}

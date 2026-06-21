@@ -27,6 +27,14 @@ from pathlib import Path
 # Allow running as a loose script.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+# The wizard prints emoji status lines; on a legacy Windows console (cp1252)
+# that raises UnicodeEncodeError. Force UTF-8 so the tool runs everywhere.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
+    except (AttributeError, ValueError):  # pre-3.7 or already-wrapped stream
+        pass
+
 from scripts.agent_writers import (  # noqa: E402
     hermes_block,
     opencode_config_merge,

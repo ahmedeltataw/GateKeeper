@@ -8,7 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Model Cards** doc section — 32 live-verified models with tier, context, and best-use
+- **Integrate with OpenCode & AI Agents** doc section — `/v1/connection-info`, `setup_agents.py`, manual OpenCode config
+- **Live Health Check** doc section + `scripts/live_smoke_report.py` one-shot per-model smoke report
 - Docker Compose support for one-command deployment
+
+### Fixed
+- Provider keys added to `.env` after the first run are now imported — `key_manager`
+  bootstrap was all-or-nothing and silently skipped new keys once the vault was non-empty
+  (activated cloudflare, huggingface, oc_zen, zai)
+- `smoke` probe no longer crashes on list-shaped (multimodal) completion content;
+  `content` is normalised to text so the probe honours its "never raises" contract
+- `setup_agents.py` no longer crashes on legacy Windows consoles (cp1252) — stdout is forced to UTF-8
 - Streamlit dashboard with dark mode
 - Multi-tenant API key support
 - Smart diagnostics engine (413 shrink, 5xx backoff)

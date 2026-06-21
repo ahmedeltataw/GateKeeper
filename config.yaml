@@ -41,7 +41,7 @@ dashboard:
   enabled: true
   username: "admin"        # password set on first run
 probe:
-  enabled: false           # boot-time per-model smoke test + auto-quarantine
+  enabled: true            # boot-time per-model smoke test + auto-quarantine
   concurrency: 3           # parallel probes (keep low to spare rate budget)
   timeout_seconds: 5
   prompt: "Reply with the single word: OK"

@@ -42,15 +42,27 @@ def upsert_marker_block(existing: str, block: str, *, comment: str = "#") -> str
 # Per-agent content builders                                                   #
 # --------------------------------------------------------------------------- #
 def opencode_config_merge(
-    existing: dict[str, Any] | None, base_url: str, api_key: str
+    existing: dict[str, Any] | None,
+    base_url: str,
+    api_key: str,
+    models: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Merge a GateKeeper OpenAI-compatible provider into an OpenCode config."""
+    """Merge a GateKeeper OpenAI-compatible provider into an OpenCode config.
+
+    When ``models`` is given (the IDs fetched from ``GET /v1/models``), they are
+    written as the provider's ``models`` map so OpenCode lists every healthy
+    gateway model. OpenCode expects a ``{id: {...}}`` object here, not a bare
+    array, so the IDs are keyed by model id with a friendly ``name``.
+    """
     config = dict(existing or {})
     providers = dict(config.get("provider", {}))
-    providers["gatekeeper"] = {
+    provider = {
         "npm": "@ai-sdk/openai-compatible",
         "options": {"baseURL": base_url, "apiKey": api_key},
     }
+    if models:
+        provider["models"] = {model_id: {"name": model_id} for model_id in models}
+    providers["gatekeeper"] = provider
     config["provider"] = providers
     return config
 

@@ -42,8 +42,8 @@ dashboard:
   username: "admin"        # password set on first run
 probe:
   enabled: true            # boot-time per-model smoke test + auto-quarantine
-  concurrency: 3           # parallel probes (keep low to spare rate budget)
-  timeout_seconds: 5
+  concurrency: 1           # serial probes — almost eliminates 429 rate-limit hits
+  timeout_seconds: 15      # patient: give slow/cold-edge models time to respond
   prompt: "Reply with the single word: OK"
   max_tokens: 4
   skip_rate_limited: true  # don't probe providers already marked rate_limited

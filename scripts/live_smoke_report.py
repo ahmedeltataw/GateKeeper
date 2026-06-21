@@ -50,7 +50,7 @@ async def main() -> int:
     print("-" * 78)
 
     cfg = get_config().probe
-    sem = asyncio.Semaphore(4)
+    sem = asyncio.Semaphore(max(1, cfg.concurrency))
 
     async def one(m):
         async with sem:

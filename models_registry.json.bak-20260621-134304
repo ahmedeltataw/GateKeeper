@@ -127,7 +127,7 @@
       "rpm": 20,
       "rpd": 50
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-17",
@@ -968,7 +968,7 @@
     "rate_limits": {
       "rpm": 40
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-17",
@@ -1000,7 +1000,7 @@
     "rate_limits": {
       "rpm": 40
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-17",
@@ -1096,7 +1096,7 @@
     "rate_limits": {
       "rpm": 40
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-17",
@@ -1625,7 +1625,7 @@
     "rate_limits": {
       "rpd": 250
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-21",
@@ -1888,7 +1888,7 @@
       "rpm": 15,
       "rpd": 150
     },
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-21",
@@ -2309,7 +2309,7 @@
       "output": 0.0
     },
     "rate_limits": {},
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-21",
@@ -2339,7 +2339,7 @@
       "output": 0.0
     },
     "rate_limits": {},
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-21",
@@ -2369,7 +2369,7 @@
       "output": 0.0
     },
     "rate_limits": {},
-    "enabled": false,
+    "enabled": true,
     "status": "active",
     "fallback_models": [],
     "added_at": "2026-06-21",

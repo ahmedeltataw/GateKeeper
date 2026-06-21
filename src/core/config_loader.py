@@ -113,6 +113,22 @@ class CircuitCfg(BaseModel):
     report_file: str = "server/data/blacklist_report.md"
 
 
+class ProbeCfg(BaseModel):
+    """Boot-time per-model smoke probe + auto-quarantine.
+
+    Off by default: probing the whole catalog consumes provider rate budget, so
+    operators opt in. Failures feed the existing circuit breaker, so a model
+    that 404s/401s at boot is quarantined via the same path as a live failure.
+    """
+
+    enabled: bool = False
+    concurrency: int = 3
+    timeout_seconds: float = 5.0
+    prompt: str = "Reply with the single word: OK"
+    max_tokens: int = 4
+    skip_rate_limited: bool = True
+
+
 class UsageCfg(BaseModel):
     """Per-tenant usage tracking (write-behind counters)."""
 
@@ -152,6 +168,7 @@ class AppConfig(BaseModel):
     diagnostics: DiagnosticsCfg = Field(default_factory=DiagnosticsCfg)
     language: LanguageCfg = Field(default_factory=LanguageCfg)
     circuit: CircuitCfg = Field(default_factory=CircuitCfg)
+    probe: ProbeCfg = Field(default_factory=ProbeCfg)
     catalog: CatalogCfg = Field(default_factory=CatalogCfg)
     usage: UsageCfg = Field(default_factory=UsageCfg)
     benchmark: BenchmarkCfg = Field(default_factory=BenchmarkCfg)

@@ -159,6 +159,55 @@ async def test_admin_key_write_stores_ciphertext_and_returns_masked_summary(
 
 
 @pytest.mark.asyncio
+async def test_admin_enable_disable_and_retry_model(
+    admin_client: tuple[AsyncClient, Path]
+) -> None:
+    """Admin can toggle a model and clear its breaker at runtime (no restart)."""
+    client, _ = admin_client
+    headers = {"Authorization": "Bearer test-admin-token"}
+    model_id = "gemini-2.5-flash"  # stable doc-verified id
+
+    disable = await client.post(f"/admin/models/{model_id}/disable", headers=headers)
+    assert disable.status_code == 200
+    assert disable.json() == {"id": model_id, "enabled": False}
+
+    # Disabled model drops out of the public catalog.
+    listing = await client.get("/v1/models", headers={"X-API-Key": "sk-local"})
+    assert model_id not in [m["id"] for m in listing.json()["data"]]
+
+    enable = await client.post(f"/admin/models/{model_id}/enable", headers=headers)
+    assert enable.status_code == 200
+    assert enable.json()["enabled"] is True
+    assert enable.json()["circuit"] == "reset"
+
+    retry = await client.post(f"/admin/models/{model_id}/retry", headers=headers)
+    assert retry.status_code == 200
+    assert retry.json()["circuit"] == "reset"
+
+
+@pytest.mark.asyncio
+async def test_admin_model_controls_404_on_unknown(
+    admin_client: tuple[AsyncClient, Path]
+) -> None:
+    client, _ = admin_client
+    headers = {"Authorization": "Bearer test-admin-token"}
+    for verb in ("enable", "disable", "retry"):
+        resp = await client.post(f"/admin/models/nope-not-real/{verb}", headers=headers)
+        assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_admin_quarantine_shape(admin_client: tuple[AsyncClient, Path]) -> None:
+    client, _ = admin_client
+    headers = {"Authorization": "Bearer test-admin-token"}
+    resp = await client.get("/admin/quarantine", headers=headers)
+    assert resp.status_code == 200
+    body = resp.json()
+    assert "quarantined" in body and isinstance(body["quarantined"], list)
+    assert "last_probe" in body
+
+
+@pytest.mark.asyncio
 async def test_admin_routes_are_not_mounted_when_dashboard_disabled(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

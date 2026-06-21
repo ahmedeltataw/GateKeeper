@@ -46,8 +46,17 @@ def _model(
     fallback_models: list[str] | None = None,
     added_at: str = "2026-06-17",
     last_verified: str = "2026-06-17",
+    verification_source: str = "doc_verified",
 ) -> dict[str, Any]:
-    """Build a normalised model record matching ``ModelInfo``."""
+    """Build a normalised model record matching ``ModelInfo``.
+
+    ``verification_source`` is honest about provenance:
+    - ``doc_verified``      — confirmed against the provider's live docs.
+    - ``roadmap_candidate`` — a 2025/2026 model id from the roadmap that has NOT
+      been confirmed against live docs. Added so the boot probe (probe.py) can
+      smoke-test it; broken ids are auto-quarantined by the circuit breaker and
+      never reach a user. Do not present these as verified.
+    """
     return {
         "id": id,
         "display_name": display_name,
@@ -67,8 +76,16 @@ def _model(
         "notes": notes,
         "added_at": added_at,
         "last_verified": last_verified,
-        "verification_source": "doc_verified",
+        "verification_source": verification_source,
     }
+
+
+def _candidate(**kwargs: Any) -> dict[str, Any]:
+    """A roadmap candidate model — added unverified for the boot probe to vet."""
+    kwargs.setdefault("added_at", "2026-06-21")
+    kwargs.setdefault("last_verified", "2026-06-21")
+    kwargs["verification_source"] = "roadmap_candidate"
+    return _model(**kwargs)
 
 
 _MODELS: list[dict[str, Any]] = [
@@ -653,6 +670,187 @@ _MODELS: list[dict[str, Any]] = [
         max_output_tokens=4096,
         rate_limits={"rpm": 10},
         notes="Eval only: ~$0.10/month free credit.",
+    ),
+    # =====================================================================
+    # ROADMAP CANDIDATES (docs/ROADMAP_AND_IMPROVEMENTS.md §1.2)
+    # 2025/2026 model ids NOT yet confirmed against live provider docs.
+    # Added as `roadmap_candidate` so the boot probe (probe.py) smoke-tests
+    # them; broken ids auto-quarantine via the circuit breaker and never
+    # reach a user. Do NOT cite these as verified.
+    # =====================================================================
+    # -- Google Gemini ----------------------------------------------------
+    _candidate(
+        id="gemini-3.5-flash", display_name="Gemini 3.5 Flash (candidate)",
+        provider_id="gemini", provider_model_id="gemini-3.5-flash", strength="S",
+        use_cases=["search", "reasoning", "coding", "vision"],
+        context_window=1_000_000, max_output_tokens=8192,
+        rate_limits={"rpd": 250}, modalities=["text", "image"],
+    ),
+    _candidate(
+        id="gemini-3-flash", display_name="Gemini 3 Flash (candidate)",
+        provider_id="gemini", provider_model_id="gemini-3-flash", strength="S",
+        use_cases=["search", "reasoning", "coding"],
+        context_window=1_000_000, max_output_tokens=8192, rate_limits={"rpd": 250},
+    ),
+    _candidate(
+        id="gemini-3.1-flash-lite", display_name="Gemini 3.1 Flash-Lite (candidate)",
+        provider_id="gemini", provider_model_id="gemini-3.1-flash-lite", strength="A",
+        use_cases=["search", "data"], context_window=1_000_000,
+        max_output_tokens=8192, rate_limits={"rpd": 500},
+    ),
+    # -- GitHub Models (Copilot Free) ------------------------------------
+    _candidate(
+        id="gh-gpt-5-chat", display_name="GPT-5 Chat (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="openai/gpt-5-chat", strength="S",
+        use_cases=["reasoning", "coding", "search"], context_window=4096,
+        max_output_tokens=4096, rate_limits={"rpm": 2, "rpd": 12},
+    ),
+    _candidate(
+        id="gh-gpt-5-mini", display_name="GPT-5 Mini (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="openai/gpt-5-mini", strength="A",
+        use_cases=["reasoning", "coding"], context_window=4096,
+        max_output_tokens=4096, rate_limits={"rpm": 2, "rpd": 12},
+    ),
+    _candidate(
+        id="gh-gpt-5-nano", display_name="GPT-5 Nano (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="openai/gpt-5-nano", strength="B",
+        use_cases=["search", "data"], context_window=4096,
+        max_output_tokens=4096, rate_limits={"rpm": 2, "rpd": 12},
+    ),
+    _candidate(
+        id="gh-o4-mini", display_name="o4-mini (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="openai/o4-mini", strength="A",
+        use_cases=["reasoning"], context_window=8192,
+        max_output_tokens=4096, rate_limits={"rpm": 2, "rpd": 12}, category="reasoning",
+    ),
+    _candidate(
+        id="gh-deepseek-v3-0324", display_name="DeepSeek V3 0324 (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="deepseek/DeepSeek-V3-0324", strength="S",
+        use_cases=["coding", "reasoning"], context_window=128_000,
+        max_output_tokens=4096, rate_limits={"rpm": 1, "rpd": 8},
+    ),
+    _candidate(
+        id="gh-deepseek-r1-0528", display_name="DeepSeek R1 0528 (GitHub, candidate)",
+        provider_id="github_models", provider_model_id="deepseek/DeepSeek-R1-0528", strength="S",
+        use_cases=["reasoning", "coding"], context_window=128_000,
+        max_output_tokens=4096, rate_limits={"rpm": 1, "rpd": 8}, category="reasoning",
+    ),
+    _candidate(
+        id="gh-llama-4-maverick", display_name="Llama 4 Maverick (GitHub, candidate)",
+        provider_id="github_models",
+        provider_model_id="meta/llama-4-maverick-17b-128e-instruct", strength="A",
+        use_cases=["coding", "search"], context_window=8192,
+        max_output_tokens=4096, rate_limits={"rpm": 15, "rpd": 150},
+    ),
+    # -- OpenRouter (:free) ----------------------------------------------
+    _candidate(
+        id="or-nemotron-3-ultra-550b", display_name="Nemotron 3 Ultra 550B (OpenRouter, candidate)",
+        provider_id="openrouter",
+        provider_model_id="nvidia/nemotron-3-ultra-550b-a55b:free", strength="S",
+        use_cases=["reasoning", "coding"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpm": 20, "rpd": 50},
+    ),
+    _candidate(
+        id="or-nemotron-3-super-120b", display_name="Nemotron 3 Super 120B (OpenRouter, candidate)",
+        provider_id="openrouter",
+        provider_model_id="nvidia/nemotron-3-super-120b-a12b:free", strength="S",
+        use_cases=["reasoning", "coding"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpm": 20, "rpd": 50},
+    ),
+    _candidate(
+        id="or-qwen3-next-80b", display_name="Qwen3 Next 80B (OpenRouter, candidate)",
+        provider_id="openrouter",
+        provider_model_id="qwen/qwen3-next-80b-a3b-instruct:free", strength="A",
+        use_cases=["coding", "search"], context_window=256_000,
+        max_output_tokens=8192, rate_limits={"rpm": 20, "rpd": 50},
+    ),
+    _candidate(
+        id="or-gemma-4-26b", display_name="Gemma 4 26B (OpenRouter, candidate)",
+        provider_id="openrouter", provider_model_id="google/gemma-4-26b-a4b-it:free",
+        strength="A", use_cases=["search", "creative"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpm": 20, "rpd": 50},
+    ),
+    _candidate(
+        id="or-nemotron-3-nano-30b", display_name="Nemotron 3 Nano 30B (OpenRouter, candidate)",
+        provider_id="openrouter", provider_model_id="nvidia/nemotron-3-nano-30b-a3b:free",
+        strength="B", use_cases=["data", "search"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpm": 20, "rpd": 50},
+    ),
+    # -- Groq -------------------------------------------------------------
+    _candidate(
+        id="groq-qwen3.6-27b", display_name="Qwen3.6 27B (Groq, candidate)",
+        provider_id="groq", provider_model_id="qwen/qwen3.6-27b", strength="A",
+        use_cases=["coding", "reasoning"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpd": 1000, "tpm": 8000},
+    ),
+    _candidate(
+        id="groq-compound", display_name="Groq Compound (candidate)",
+        provider_id="groq", provider_model_id="groq/compound", strength="A",
+        use_cases=["reasoning", "search"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpd": 250, "tpm": 70000}, category="reasoning",
+    ),
+    _candidate(
+        id="groq-compound-mini", display_name="Groq Compound Mini (candidate)",
+        provider_id="groq", provider_model_id="groq/compound-mini", strength="B",
+        use_cases=["reasoning"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"rpd": 250, "tpm": 70000}, category="reasoning",
+    ),
+    # -- Cloudflare Workers AI -------------------------------------------
+    _candidate(
+        id="cf-glm-5.2", display_name="GLM 5.2 (Cloudflare, candidate)",
+        provider_id="cloudflare", provider_model_id="@cf/zai-org/glm-5.2", strength="A",
+        use_cases=["coding", "reasoning"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"neurons": 10000},
+    ),
+    _candidate(
+        id="cf-kimi-k2.7-code", display_name="Kimi K2.7 Code (Cloudflare, candidate)",
+        provider_id="cloudflare", provider_model_id="@cf/moonshotai/kimi-k2.7-code",
+        strength="A", use_cases=["coding"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"neurons": 10000},
+    ),
+    _candidate(
+        id="cf-kimi-k2.6", display_name="Kimi K2.6 (Cloudflare, candidate)",
+        provider_id="cloudflare", provider_model_id="@cf/moonshotai/kimi-k2.6",
+        strength="A", use_cases=["search", "coding"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"neurons": 10000},
+    ),
+    _candidate(
+        id="cf-gemma-4-26b", display_name="Gemma 4 26B (Cloudflare, candidate)",
+        provider_id="cloudflare", provider_model_id="@cf/google/gemma-4-26b-a4b-it",
+        strength="A", use_cases=["search", "creative"], context_window=32_768,
+        max_output_tokens=8192, rate_limits={"neurons": 10000},
+    ),
+    # -- OpenCode Zen -----------------------------------------------------
+    _candidate(
+        id="oczen-deepseek-v4-flash", display_name="DeepSeek V4 Flash (OpenCode Zen, candidate)",
+        provider_id="oc_zen", provider_model_id="deepseek-v4-flash-free", strength="S",
+        use_cases=["reasoning", "coding", "search"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={}, category="reasoning",
+    ),
+    _candidate(
+        id="oczen-nemotron-3-super", display_name="Nemotron 3 Super (OpenCode Zen, candidate)",
+        provider_id="oc_zen", provider_model_id="nemotron-3-super-free", strength="S",
+        use_cases=["reasoning", "coding"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={},
+    ),
+    _candidate(
+        id="oczen-big-pickle-stealth", display_name="Big Pickle Stealth (OpenCode Zen, candidate)",
+        provider_id="oc_zen", provider_model_id="big-pickle-stealth", strength="A",
+        use_cases=["search", "creative"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={},
+    ),
+    # -- Z.ai GLM ---------------------------------------------------------
+    _candidate(
+        id="glm-5.2-flash", display_name="GLM-5.2-Flash (candidate)",
+        provider_id="zai", provider_model_id="glm-5.2-flash", strength="A",
+        use_cases=["coding", "reasoning", "search"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"concurrent": 1},
+    ),
+    _candidate(
+        id="glm-5.2-air", display_name="GLM-5.2-Air (candidate)",
+        provider_id="zai", provider_model_id="glm-5.2-air", strength="B",
+        use_cases=["coding", "data"], context_window=128_000,
+        max_output_tokens=8192, rate_limits={"concurrent": 1},
     ),
 ]
 

@@ -263,6 +263,74 @@ class AdminApiClient:
         """
         return list(self._request("GET", "/admin/usage").json())
 
+    def enable_model(self, model_id: str) -> dict[str, Any]:
+        """Call `POST /admin/models/{id}/enable` (re-enable + reset breaker)."""
+        return dict(self._request("POST", f"/admin/models/{model_id}/enable").json())
+
+    def disable_model(self, model_id: str) -> dict[str, Any]:
+        """Call `POST /admin/models/{id}/disable` (drop from routing/catalog)."""
+        return dict(self._request("POST", f"/admin/models/{model_id}/disable").json())
+
+    def retry_model(self, model_id: str) -> dict[str, Any]:
+        """Call `POST /admin/models/{id}/retry` (clear breaker / un-quarantine)."""
+        return dict(self._request("POST", f"/admin/models/{model_id}/retry").json())
+
+    def get_quarantine(self) -> dict[str, Any]:
+        """Call `GET /admin/quarantine`, returning quarantined models + last probe."""
+        return dict(self._request("GET", "/admin/quarantine").json())
+
+
+def fetch_connection_info(gateway_url: str) -> dict[str, Any]:
+    """Fetch the public `/v1/connection-info` document (no auth required)."""
+    url = gateway_url.rstrip("/")
+    try:
+        with httpx.Client(base_url=url, timeout=_REQUEST_TIMEOUT_SECONDS) as client:
+            response = client.get("/v1/connection-info")
+    except httpx.RequestError as exc:
+        raise GatewayUnavailableError(f"Could not reach the gateway at {url}.") from exc
+    if response.is_error:
+        raise AdminApiError(f"Gateway returned HTTP {response.status_code}.")
+    return dict(response.json())
+
+
+def fetch_agent_snippet(gateway_url: str, agent: str, fmt: str = "text") -> dict[str, Any]:
+    """Fetch a public `/v1/agent-snippet` for one agent (no auth required)."""
+    url = gateway_url.rstrip("/")
+    try:
+        with httpx.Client(base_url=url, timeout=_REQUEST_TIMEOUT_SECONDS) as client:
+            response = client.get("/v1/agent-snippet", params={"agent": agent, "format": fmt})
+    except httpx.RequestError as exc:
+        raise GatewayUnavailableError(f"Could not reach the gateway at {url}.") from exc
+    if response.is_error:
+        raise AdminApiError(f"Gateway returned HTTP {response.status_code}.")
+    return dict(response.json())
+
+
+def test_connection(gateway_url: str, api_key: str) -> dict[str, Any]:
+    """Send a tiny chat completion to verify an agent could reach the gateway.
+
+    Returns ``{"ok": bool, "detail": str}``. Used by the Integrations page's
+    per-agent "Test Connection" button.
+    """
+    url = gateway_url.rstrip("/")
+    body = {
+        "model": "auto",
+        "messages": [{"role": "user", "content": "ping"}],
+        "max_tokens": 4,
+    }
+    try:
+        with httpx.Client(base_url=url, timeout=_REQUEST_TIMEOUT_SECONDS) as client:
+            response = client.post(
+                "/v1/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}"},
+                json=body,
+            )
+    except httpx.RequestError as exc:
+        return {"ok": False, "detail": f"unreachable: {exc}"}
+    if response.status_code == 200:
+        return {"ok": True, "detail": "200 OK — a real completion came back."}
+    return {"ok": False, "detail": f"HTTP {response.status_code}: {response.text[:200]}"}
+
 
 def fetch_setup_status(gateway_url: str) -> bool:
     """Return whether the gateway still needs first-run admin setup (no auth)."""

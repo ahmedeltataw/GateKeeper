@@ -31,6 +31,7 @@ from src.providers.spec import all_specs, get_spec, register_spec, spec_env_vars
 # Importing a provider module runs its register_spec() at import time. List every
 # spec-based provider module here so the registry is populated on package import.
 from src.providers import zai  # noqa: F401  (registers the "zai" spec)
+from src.providers import oc_zen  # noqa: F401  (registers the "oc_zen" spec)
 
 _LEGACY_CLASSES: dict[str, type[BaseProvider]] = {
     "openrouter": OpenRouterProvider,

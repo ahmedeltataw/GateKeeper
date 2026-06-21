@@ -6,7 +6,7 @@ import time
 from typing import Any
 
 from fastapi import APIRouter, Query, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, PlainTextResponse, StreamingResponse
 
 from src.core.fallback import get_fallback_count, stream_with_fallback, try_with_fallback
 from src.core.registry import get_registry
@@ -14,7 +14,8 @@ from src.core.sticky import derive_session_id, get_sticky_model
 from src.core.config_loader import get_config
 from src.core.tenant import OWNER, Principal
 from src.core.types import ChatRequest
-from src.core import cache, health, usage
+from src.api import snippets
+from src.core import cache, health, metrics, probe, usage
 
 router = APIRouter()
 
@@ -60,7 +61,17 @@ async def health_endpoint() -> dict[str, Any]:
         **request_stats,
         "cache_hits": cache.get_hits(),
         "fallback_count": get_fallback_count(),
+        "catalog_probe": probe.get_summary(),
     }
+
+
+@router.get("/metrics")
+async def metrics_endpoint(format: str = Query("prometheus")):
+    """Public metrics: Prometheus exposition text, or JSON with ?format=json."""
+    snapshot = metrics.collect()
+    if format == "json":
+        return JSONResponse(snapshot)
+    return PlainTextResponse(metrics.to_prometheus(snapshot), media_type="text/plain; version=0.0.4")
 
 
 @router.get("/v1/models")
@@ -195,6 +206,24 @@ async def build_usage_view(principal: Principal) -> dict[str, Any]:
 async def usage_endpoint(http_request: Request) -> dict[str, Any]:
     """Return the caller's own usage vs. quota for the current period."""
     return await build_usage_view(_principal(http_request))
+
+
+@router.get("/v1/connection-info")
+async def connection_info_endpoint() -> dict[str, Any]:
+    """Public: self-describing 'how do I connect to this gateway?' document."""
+    return await snippets.connection_info()
+
+
+@router.get("/v1/agent-snippet")
+async def agent_snippet_endpoint(
+    agent: str = Query(..., description="Agent name, e.g. opencode, claude-code, hermes"),
+    format: str = Query("text", description="'text' (snippet) or 'json' (structured config)"),
+):
+    """Public: a ready-to-use config snippet tailored for the requested agent."""
+    try:
+        return snippets.agent_snippet(agent, format)
+    except ValueError as exc:
+        return error_response(str(exc), "invalid_request_error", 400, param="agent")
 
 
 def _session_id_from_request(http_request: Request, chat_request: ChatRequest) -> str:

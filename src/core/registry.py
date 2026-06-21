@@ -136,6 +136,20 @@ class Registry:
         if model is not None:
             model.status = "removed"
 
+    def set_enabled(self, model_id: str, enabled: bool) -> bool:
+        """Toggle a model's ``enabled`` flag at runtime (admin control).
+
+        Returns True if the model exists. The change is in-memory only — it does
+        not rewrite ``models_registry.json`` — so a restart restores the
+        catalog's declared state. A disabled model drops out of ``get_active``
+        and therefore out of routing and ``/v1/models``.
+        """
+        model = self._models.get(model_id)
+        if model is None:
+            return False
+        model.enabled = enabled
+        return True
+
     def search(self, term: str) -> list[ModelInfo]:
         term_lower = term.lower()
         return [

@@ -24,6 +24,13 @@ class AuthMiddleware(BaseHTTPMiddleware):
     _SETUP_STATUS_PATH = "/admin/setup/status"
     _SETUP_BOOTSTRAP_PATH = "/admin/setup/bootstrap"
 
+    # Public, unauthenticated GET endpoints. These are self-describing onboarding
+    # helpers; any secret they surface (the client api_key) is gated *inside* the
+    # handler by loopback host, never by these paths being public.
+    _PUBLIC_PATHS = frozenset(
+        {"/health", "/metrics", "/v1/connection-info", "/v1/agent-snippet"}
+    )
+
     @staticmethod
     def _auth_error(message: str) -> Response:
         """Return a fixed OpenAI-style 401 for client auth failures."""
@@ -52,6 +59,19 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if not auth_header.startswith("Bearer "):
             return None
         return auth_header[7:]
+
+    @classmethod
+    def _extract_client_token(cls, request: Request) -> str | None:
+        """Return the client API key from ``Authorization: Bearer`` or ``X-API-Key``.
+
+        Some agent extensions (Continue.dev, custom scripts) send ``X-API-Key``
+        instead of a bearer header; accept both so onboarding "just works".
+        """
+        token = cls._extract_bearer_token(request.headers.get("Authorization", ""))
+        if token is not None:
+            return token
+        header_key = request.headers.get("X-API-Key")
+        return header_key or None
 
     async def dispatch(
         self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
@@ -84,10 +104,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
             request.state.principal = tenant.OWNER
             return await call_next(request)
 
-        if request.url.path == "/health":
+        if request.url.path in self._PUBLIC_PATHS:
             return await call_next(request)
 
-        token = self._extract_bearer_token(request.headers.get("Authorization", ""))
+        token = self._extract_client_token(request)
         if token is None:
             return self._auth_error("Missing or invalid Authorization header")
 

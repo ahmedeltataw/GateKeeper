@@ -12,7 +12,17 @@ from fastapi.responses import JSONResponse
 from src.api import admin, dashboard, setup
 from src.api.middleware import AuthMiddleware, LoggerMiddleware, attach_cors
 from src.api.routes import error_response, router
-from src.core import benchmark, catalog, circuit, health, key_manager, rate_limiter, tenant, usage
+from src.core import (
+    benchmark,
+    catalog,
+    circuit,
+    health,
+    key_manager,
+    probe,
+    rate_limiter,
+    tenant,
+    usage,
+)
 from src.core.config_loader import get_config
 from src.core.registry import get_registry
 from src.core.types import GatewayError
@@ -40,6 +50,14 @@ async def _lifespan(app: FastAPI):
     health.start()
     catalog.start()
     benchmark.start()
+
+    # Boot-time smoke probe: quarantine broken models before any user hits them.
+    # Best-effort — a probe failure must never stop the gateway from serving.
+    if get_config().probe.enabled:
+        try:
+            await probe.probe_all_models()
+        except Exception:
+            pass
 
     usage_cfg = get_config().usage
     flush_task: asyncio.Task | None = None

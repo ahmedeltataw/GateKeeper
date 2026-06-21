@@ -12,7 +12,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, Response, status
 
-from src.core import cache, health, key_manager, tenant
+from src.core import cache, circuit, health, key_manager, probe, tenant
 from src.core.fallback import get_fallback_count
 from src.core.registry import get_registry
 
@@ -102,6 +102,46 @@ async def admin_models() -> list[dict[str, Any]]:
     """Return every registered model serialized from the in-memory registry."""
     registry = await get_registry()
     return [model.model_dump(mode="json") for model in registry.all_models()]
+
+
+@router.post("/models/{model_id}/enable")
+async def admin_enable_model(model_id: str) -> dict[str, Any]:
+    """Re-enable a model at runtime (no restart). Also resets its breaker."""
+    registry = await get_registry()
+    if not registry.set_enabled(model_id, True):
+        raise HTTPException(status_code=404, detail=f"Unknown model: {model_id}")
+    await circuit.reset(model_id)  # clear any open/blacklisted state so it routes
+    return {"id": model_id, "enabled": True, "circuit": "reset"}
+
+
+@router.post("/models/{model_id}/disable")
+async def admin_disable_model(model_id: str) -> dict[str, Any]:
+    """Disable a model at runtime (no restart). Drops it from routing + /v1/models."""
+    registry = await get_registry()
+    if not registry.set_enabled(model_id, False):
+        raise HTTPException(status_code=404, detail=f"Unknown model: {model_id}")
+    return {"id": model_id, "enabled": False}
+
+
+@router.post("/models/{model_id}/retry")
+async def admin_retry_model(model_id: str) -> dict[str, Any]:
+    """Clear a model's circuit breaker (un-quarantine a blacklisted model)."""
+    registry = await get_registry()
+    if registry.get(model_id) is None:
+        raise HTTPException(status_code=404, detail=f"Unknown model: {model_id}")
+    await circuit.reset(model_id)
+    return {"id": model_id, "circuit": "reset"}
+
+
+@router.get("/quarantine")
+async def admin_quarantine() -> dict[str, Any]:
+    """Return quarantined models (open/blacklisted breakers) + last probe run."""
+    rows = [
+        {"model_id": mid, **state}
+        for mid, state in circuit.snapshot().items()
+        if state.get("state") in (circuit.STATE_OPEN, circuit.STATE_BLACKLISTED)
+    ]
+    return {"quarantined": rows, "last_probe": probe.get_summary()}
 
 
 @router.get("/analytics")

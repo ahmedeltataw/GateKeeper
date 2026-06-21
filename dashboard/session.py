@@ -51,6 +51,11 @@ def get_client() -> AdminApiClient:
     )
 
 
+def get_gateway_url() -> str:
+    """Return the gateway base URL remembered for this session (or empty)."""
+    return st.session_state.get(_GATEWAY_URL_KEY, "")
+
+
 def require_auth() -> AdminApiClient:
     """Stop the page with a sign-in hint when unauthenticated, else return a client."""
     if not is_authenticated():
